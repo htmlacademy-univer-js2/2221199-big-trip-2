@@ -1,7 +1,7 @@
 import {createElement} from '../render';
 
 const createEditPointTemplate = () => (
-  `<li class="trip-events__item">
+  `<!--<li class="trip-events__item">-->
     <form class="event event--edit" action="#" method="post">
                 <header class="event__header">
                   <div class="event__type-wrapper">
@@ -154,8 +154,8 @@ const createEditPointTemplate = () => (
                     <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.</p>
                   </section>
                 </section>
-              </form>
-  </li>`
+              </form>`
+  // </li>`
 );
 
 export default class EditPointView {
