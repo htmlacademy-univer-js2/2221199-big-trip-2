@@ -7,7 +7,7 @@ const generateOffer = (id) => ({
   'price': getRandomInRange(1,200)
 });
 
-const OffersByType = [
+const offersByType = [
   {
     'type': 'taxi',
     'offers': Array.from({length: MAX_OFFERS_COUNT}, (_, i) => generateOffer(i + 1))
@@ -46,41 +46,4 @@ const OffersByType = [
   }
 ];
 
-// const OffersByType = [
-//   {
-//     'type': 'taxi',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   },
-//   {
-//     'type': 'bus',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   },
-//   {
-//     'type': 'train',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   },
-//   {
-//     'type': 'ship',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   },
-//   {
-//     'type': 'drive',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   },
-//   {
-//     'type': 'flight',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   },
-//   {
-//     'type': 'check-in',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   },
-//   {
-//     'type': 'sightseeing',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   },
-//   {
-//     'type': 'restaurant',
-//     'offers': [generateOffer(1), generateOffer(2), generateOffer(3)]
-//   }
-// ];
+export {offersByType}

@@ -8,7 +8,7 @@ const DESCRIPTIONS = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit',
   'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum',
   'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui'];
 
-const CITIES = ['London', 'Tokio', 'Akinawa', 'City17', 'Mondstad'];
+const CITIES = ['London', 'Tokio', 'Akinawa', 'City17', 'Mondstadt'];
 
 const generatePhoto = () => ({
   'src': `http://picsum.photos/300/200?r=${getRandomInRange(1, 30)}`,
@@ -24,11 +24,6 @@ const generateDestination = (id) => {
   }
 }
 
-// let Destinations;
-// for (let i = 0; i < DESTINATIONS_COUNT - 1; i++) {
-//   Destinations[i] = generateDestination(i);
-// }
+const destinations = Array.from({length: DESTINATIONS_COUNT}, (_, i) => generateDestination(i))
 
-const Destinations = Array.from({length: DESTINATIONS_COUNT}, (_, i) => generateDestination(i + 1))
-
-export default Destinations;
+export default destinations;

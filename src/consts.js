@@ -4,4 +4,4 @@ const OFFER_TITLES = ['Offer', 'Another offer', 'Usual offer', 'Cheap offer', 'E
 const MAX_OFFERS_COUNT = 3;
 const POINTS_COUNT = 5;
 
-export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT};
+export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT, POINTS_COUNT};
