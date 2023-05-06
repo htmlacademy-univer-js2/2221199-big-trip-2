@@ -18,8 +18,8 @@ const createRandomDates = () => {
     : {
       'dateFrom': secondDate.toISOString(),
       'dateTo': firstDate.toISOString()
-    }
-}
+    };
+};
 
 export {createRandomDates};
 

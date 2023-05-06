@@ -20,6 +20,6 @@ const generatePoint = (id) => {
     'is_favorite': Boolean(getRandomInRange(0, 1)),
     'offers': Array.from({length: getRandomInRange(0, MAX_OFFERS_COUNT)}, (_, i) => i + 1),
   };
-}
+};
 
 export default generatePoint;

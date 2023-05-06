@@ -4,9 +4,9 @@ import {humanizeDate, humanizeTime} from '../util';
 const createEditPointTemplate = (point, currentOffers, currentDestination) => {
   const {
     type,
-    base_price,
-    date_from,
-    date_to,
+    base_price: basePrice,
+    date_from: dateFrom,
+    date_to: dateTo,
     offers
   } = point;
 
@@ -113,10 +113,10 @@ const createEditPointTemplate = (point, currentOffers, currentDestination) => {
 
                     <div class="event__field-group  event__field-group--time">
                       <label class="visually-hidden" for="event-start-time-1">From</label>
-                      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${getFullDate(date_from, 'DD/MM/YY')}">
+                      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${getFullDate(dateFrom, 'DD/MM/YY')}">
                       &mdash;
                       <label class="visually-hidden" for="event-end-time-1">To</label>
-                      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${getFullDate(date_to, 'DD/MM/YY')}">
+                      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${getFullDate(dateTo, 'DD/MM/YY')}">
                     </div>
 
                     <div class="event__field-group  event__field-group--price">
@@ -124,7 +124,7 @@ const createEditPointTemplate = (point, currentOffers, currentDestination) => {
                         <span class="visually-hidden">Price</span>
                         &euro;
                       </label>
-                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${base_price}">
+                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
                     </div>
 
                     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -160,8 +160,9 @@ export default class EditPointView {
   constructor(point, offers, destination) {
     this.point = point;
     this.offers = offers;
-    this.destination = destination
+    this.destination = destination;
   }
+
   getTemplate() {
     return createEditPointTemplate(this.point, this.offers, this.destination);
   }
@@ -177,4 +178,4 @@ export default class EditPointView {
   removeElement() {
     this._element = null;
   }
-};
+}

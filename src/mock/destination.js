@@ -15,15 +15,13 @@ const generatePhoto = () => ({
   'description': DESCRIPTIONS[getRandomInRange(0, DESCRIPTIONS.length - 1)],
 });
 
-const generateDestination = (id) => {
-  return {
-    id,
-    'description': DESCRIPTIONS[getRandomInRange(0, DESCRIPTIONS.length - 1)],
-    'name': CITIES[getRandomInRange(0, CITIES.length - 1)],
-    'pictures': Array.from({length: getRandomInRange(1, 5)}, generatePhoto),
-  }
-}
+const generateDestination = (id) => ({
+  id,
+  'description': DESCRIPTIONS[getRandomInRange(0, DESCRIPTIONS.length - 1)],
+  'name': CITIES[getRandomInRange(0, CITIES.length - 1)],
+  'pictures': Array.from({length: getRandomInRange(1, 5)}, generatePhoto),
+});
 
-const destinations = Array.from({length: DESTINATIONS_COUNT}, (_, i) => generateDestination(i))
+const destinations = Array.from({length: DESTINATIONS_COUNT}, (_, i) => generateDestination(i));
 
 export default destinations;

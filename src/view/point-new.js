@@ -3,9 +3,9 @@ import {humanizeDate, humanizeTime} from '../util';
 
 const createNewPointTemplate = (offersByType, destinations, point={}) => {
   const {
-    base_price = 1100,
-    date_from = '2019-07-10T22:55:56.845Z',
-    date_to = '2019-07-11T11:22:13.375Z',
+    base_price: basePrice = 1100,
+    date_from: dateFrom = '2019-07-10T22:55:56.845Z',
+    date_to: dateTo = '2019-07-11T11:22:13.375Z',
     type = 'bus',
     offers = [0],
     destination = 1,
@@ -117,10 +117,10 @@ const createNewPointTemplate = (offersByType, destinations, point={}) => {
 
                     <div class="event__field-group  event__field-group--time">
                       <label class="visually-hidden" for="event-start-time-1">From</label>
-                      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${getFullDate(date_from, 'DD/MM/YY')}">
+                      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${getFullDate(dateFrom, 'DD/MM/YY')}">
                       &mdash;
                       <label class="visually-hidden" for="event-end-time-1">To</label>
-                      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${getFullDate(date_to, 'DD/MM/YY')}">
+                      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${getFullDate(dateTo, 'DD/MM/YY')}">
                     </div>
 
                     <div class="event__field-group  event__field-group--price">
@@ -128,7 +128,7 @@ const createNewPointTemplate = (offersByType, destinations, point={}) => {
                         <span class="visually-hidden">Price</span>
                         &euro;
                       </label>
-                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${base_price}">
+                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
                     </div>
 
                     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -161,8 +161,9 @@ export default class NewPointView {
   constructor(offers, destinations, point) {
     this.point = point;
     this.offers = offers;
-    this.destinations = destinations
+    this.destinations = destinations;
   }
+
   getTemplate() {
     return createNewPointTemplate(this.offers, this.destinations, this.point);
   }
@@ -178,4 +179,4 @@ export default class NewPointView {
   removeElement() {
     this.element = null;
   }
-};
+}

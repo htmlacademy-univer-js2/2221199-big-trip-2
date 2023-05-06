@@ -46,4 +46,4 @@ const offersByType = [
   }
 ];
 
-export {offersByType}
+export {offersByType};

@@ -5,24 +5,24 @@ import dayjs from 'dayjs';
 const createPointTemplate = (point, currentOffers, currentDestination) => {
   const {
     type,
-    base_price,
-    date_from,
-    date_to,
-    is_favorite,
+    base_price: basePrice,
+    date_from: dateFrom,
+    date_to: dateTo,
+    is_favorite: isFavorite,
     offers
   } = point;
 
   const dates = {
-    'dateFrom': date_from !== null ? date_from : dayjs().toISOString(),
-    'dateTo': date_to !== null ? date_to : dayjs().toISOString(),
-  }
+    'dateFrom': dateFrom !== null ? dateFrom : dayjs().toISOString(),
+    'dateTo': dateTo !== null ? dateTo : dayjs().toISOString(),
+  };
 
   const formattedDates = {
-    'dateFrom': date_from !== null ? humanizeDate(date_from, 'YYYY-MM-DD') : humanizeDate(dayjs().toISOString(), 'YYYY-MM-DD'),
-    'dateTo': date_to !== null ? humanizeDate(date_to, 'YYYY-MM-DD') : humanizeDate(dayjs().toISOString(), 'YYYY-MM-DD'),
-    'timeFrom': date_from !== null ? humanizeTime(date_from) : humanizeTime(dayjs().toISOString()),
-    'timeTo': date_to !== null ? humanizeTime(date_from) : humanizeTime(dayjs().toISOString()),
-  }
+    'dateFrom': dateFrom !== null ? humanizeDate(dateFrom, 'YYYY-MM-DD') : humanizeDate(dayjs().toISOString(), 'YYYY-MM-DD'),
+    'dateTo': dateTo !== null ? humanizeDate(dateTo, 'YYYY-MM-DD') : humanizeDate(dayjs().toISOString(), 'YYYY-MM-DD'),
+    'timeFrom': dateFrom !== null ? humanizeTime(dateFrom) : humanizeTime(dayjs().toISOString()),
+    'timeTo': dateTo !== null ? humanizeTime(dateFrom) : humanizeTime(dayjs().toISOString()),
+  };
 
   const eventEndTime = formattedDates.dateFrom === formattedDates.dateTo ? formattedDates.timeTo : formattedDates.dateTo;
 
@@ -44,7 +44,7 @@ const createPointTemplate = (point, currentOffers, currentDestination) => {
     }
 
     return `${minutesDifference}M`;
-  }
+  };
 
   const createOffersList = () => {
     const getOffer = (offer) => {
@@ -78,11 +78,11 @@ const createPointTemplate = (point, currentOffers, currentDestination) => {
                     <p class="event__duration">${calculateDuration()}</p>
                   </div>
                   <p class="event__price">
-                    &euro;&nbsp;<span class="event__price-value">${base_price}</span>
+                    &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
                   </p>
                   <h4 class="visually-hidden">Offers:</h4>
                   <ul class="event__selected-offers">${createOffersList()}</ul>
-                  <button class="event__favorite-btn ${is_favorite ? 'event__favorite-btn--active' : ''}" type="button">
+                  <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active' : ''}" type="button">
                     <span class="visually-hidden">Add to favorite</span>
                     <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
                       <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
@@ -100,8 +100,9 @@ export default class PointView {
   constructor(point, offers, destination) {
     this.point = point;
     this.offers = offers;
-    this.destination = destination
+    this.destination = destination;
   }
+
   getTemplate() {
     return createPointTemplate(this.point, this.offers, this.destination);
   }
@@ -117,4 +118,4 @@ export default class PointView {
   removeElement() {
     this._element = null;
   }
-};
+}
