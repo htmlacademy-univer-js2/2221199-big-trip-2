@@ -1,25 +1,27 @@
+import {render} from '../render';
 import TripList from '../view/trip-list';
 import SortView from '../view/sort';
-import {render} from '../render';
 import EditPointView from '../view/point-edit';
 import PointView from '../view/point';
-
-const POINTS_COUNT = 3;
+import NewPointView from '../view/point-new';
 
 
 export default class Trip {
-  constructor(container) {
-    this.component = new TripList();
-    this.container = container;
+  constructor(container, pointsModel) {
+    this._component = new TripList();
+    this._container = container;
+    this._pointsModel = pointsModel;
+    this._pointsList = this._pointsModel.points;
   }
 
   init() {
-    render(new SortView(), this.container);
-    render(this.component, this.container);
-    render(new EditPointView(), this.component.getElement());
-
-    for (let i = 0; i < POINTS_COUNT; i++) {
-      render(new PointView(), this.component.getElement());
+    render(new SortView(), this._container);
+    render(this._component, this._container);
+    render(new NewPointView(this._pointsModel.getOffers(), this._pointsModel.getDestination()), this._component.getElement());
+    render(new EditPointView(this._pointsList[0], this._pointsModel.getOffers(this._pointsList[0]), this._pointsModel.getDestination(this._pointsList[0])), this._component.getElement());
+    for (let i = 0; i < this._pointsList.length; i++) {
+      const currentPoint = this._pointsList[i];
+      render(new PointView(currentPoint, this._pointsModel.getOffers(currentPoint), this._pointsModel.getDestination(currentPoint)), this._component.getElement());
     }
   }
 }
