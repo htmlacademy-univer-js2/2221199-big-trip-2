@@ -4,22 +4,33 @@ import destinations from '../mock/destination';
 import {offersByType} from '../mock/offer';
 
 class PointsModel {
+  #points;
+  #destinations;
+  #offersByType;
   constructor() {
-    this._points = Array.from({length: POINTS_COUNT}, (_, i) => generatePoint(i + 1));
-    this._destinations = Array.from(destinations);
-    this._offersByType = JSON.parse(JSON.stringify(offersByType));
+    this.#points = Array.from({length: POINTS_COUNT}, (_, i) => generatePoint(i + 1));
+    this.#destinations = Array.from(destinations);
+    this.#offersByType = JSON.parse(JSON.stringify(offersByType));
   }
 
   get points() {
-    return this._points;
+    return this.#points;
   }
 
-  getDestination(point) {
-    return point ? this._destinations.find((x) => x.id === point.destination) : this._destinations;
+  get destinations() {
+    return this.#destinations;
   }
 
-  getOffers(point) {
-    return point ? this._offersByType.find((x) => x.type === point.type).offers : this._offersByType;
+  get offersByType() {
+    return this.#offersByType;
+  }
+
+  getPointDestination(point) {
+    return point ? this.#destinations.find((x) => x.id === point.destination) : this.#destinations;
+  }
+
+  getPointOffers(point) {
+    return point ? this.#offersByType.find((x) => x.type === point.type).offers : this.#offersByType;
   }
 }
 

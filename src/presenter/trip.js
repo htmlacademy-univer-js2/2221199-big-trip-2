@@ -7,21 +7,25 @@ import NewPointView from '../view/point-new';
 
 
 export default class Trip {
+  #component;
+  #container;
+  #pointsModel;
+  #pointsList;
   constructor(container, pointsModel) {
-    this._component = new TripList();
-    this._container = container;
-    this._pointsModel = pointsModel;
-    this._pointsList = this._pointsModel.points;
+    this.#component = new TripList();
+    this.#container = container;
+    this.#pointsModel = pointsModel;
+    this.#pointsList = this.#pointsModel.points;
   }
 
   init() {
-    render(new SortView(), this._container);
-    render(this._component, this._container);
-    render(new NewPointView(this._pointsModel.getOffers(), this._pointsModel.getDestination()), this._component.getElement());
-    render(new EditPointView(this._pointsList[0], this._pointsModel.getOffers(this._pointsList[0]), this._pointsModel.getDestination(this._pointsList[0])), this._component.getElement());
-    for (let i = 0; i < this._pointsList.length; i++) {
-      const currentPoint = this._pointsList[i];
-      render(new PointView(currentPoint, this._pointsModel.getOffers(currentPoint), this._pointsModel.getDestination(currentPoint)), this._component.getElement());
+    render(new SortView(), this.#container);
+    render(this.#component, this.#container);
+    render(new NewPointView(this.#pointsModel.offersByType, this.#pointsModel.destinations), this.#component.element);
+    render(new EditPointView(this.#pointsList[0], this.#pointsModel.getPointOffers(this.#pointsList[0]), this.#pointsModel.getPointDestination(this.#pointsList[0])), this.#component.element);
+    for (let i = 0; i < this.#pointsList.length; i++) {
+      const currentPoint = this.#pointsList[i];
+      render(new PointView(currentPoint, this.#pointsModel.getPointOffers(currentPoint), this.#pointsModel.getPointDestination(currentPoint)), this.#component.element);
     }
   }
 }
