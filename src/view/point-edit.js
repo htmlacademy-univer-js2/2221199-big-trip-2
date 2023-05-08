@@ -15,11 +15,12 @@ const createEditPointTemplate = (point, currentOffers, currentDestination) => {
   const getFullDate = (date, format) => `${humanizeDate(date, format)} ${humanizeTime(date)}`;
 
   const createOffersList = () => {
+    let currentOfferId = 0;
     const getOffer = (offer) =>
       (
         `<div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" ${offers.find((x) => x === offer.id) ? 'checked' : ''}>
-        <label class="event__offer-label" for="event-offer-comfort-1">
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-${++currentOfferId}" type="checkbox" name="event-offer-comfort" ${offers.find((x) => x === offer.id) ? 'checked' : ''}>
+        <label class="event__offer-label" for="event-offer-comfort-${currentOfferId}">
       <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
@@ -157,25 +158,29 @@ const createEditPointTemplate = (point, currentOffers, currentDestination) => {
 };
 
 export default class EditPointView {
+  #point;
+  #offers;
+  #destination;
+  #element;
   constructor(point, offers, destination) {
-    this.point = point;
-    this.offers = offers;
-    this.destination = destination;
+    this.#point = point;
+    this.#offers = offers;
+    this.#destination = destination;
   }
 
-  getTemplate() {
-    return createEditPointTemplate(this.point, this.offers, this.destination);
+  get template() {
+    return createEditPointTemplate(this.#point, this.#offers, this.#destination);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this._element;
+    return this.#element;
   }
 
   removeElement() {
-    this._element = null;
+    this.#element = null;
   }
 }

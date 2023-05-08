@@ -16,11 +16,12 @@ const createNewPointTemplate = (offersByType, destinations, point={}) => {
   const getFullDate = (date, format) => `${humanizeDate(date, format)} ${humanizeTime(date)}`;
 
   const createOffersList = () => {
+    let currentOfferId = 0;
     const getOffer = (offer) =>
       (
         `<div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" ${offers.find((x) => x === offer.id) ? 'checked' : ''}>
-        <label class="event__offer-label" for="event-offer-comfort-1">
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-${++currentOfferId}" type="checkbox" name="event-offer-comfort" ${offers.find((x) => x === offer.id) ? 'checked' : ''}>
+        <label class="event__offer-label" for="event-offer-comfort-${currentOfferId}">
       <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
@@ -158,25 +159,29 @@ const createNewPointTemplate = (offersByType, destinations, point={}) => {
 };
 
 export default class NewPointView {
+  #point;
+  #offers;
+  #destinations;
+  #element;
   constructor(offers, destinations, point) {
-    this.point = point;
-    this.offers = offers;
-    this.destinations = destinations;
+    this.#point = point;
+    this.#offers = offers;
+    this.#destinations = destinations;
   }
 
-  getTemplate() {
-    return createNewPointTemplate(this.offers, this.destinations, this.point);
+  get template() {
+    return createNewPointTemplate(this.#offers, this.#destinations, this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

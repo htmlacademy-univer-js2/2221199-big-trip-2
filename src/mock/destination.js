@@ -11,7 +11,7 @@ const DESCRIPTIONS = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit',
 const CITIES = ['London', 'Tokio', 'Akinawa', 'City17', 'Mondstadt'];
 
 const generatePhoto = () => ({
-  'src': `http://picsum.photos/300/200?r=${getRandomInRange(1, 30)}`,
+  'src': `http://picsum.photos/248/152?r=${getRandomInRange(1, 9999)}`,
   'description': DESCRIPTIONS[getRandomInRange(0, DESCRIPTIONS.length - 1)],
 });
 
