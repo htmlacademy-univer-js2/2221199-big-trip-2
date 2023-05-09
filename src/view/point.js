@@ -21,10 +21,10 @@ const createPointTemplate = (point, currentOffers, currentDestination) => {
     'dateFrom': dateFrom !== null ? humanizeDate(dateFrom, 'YYYY-MM-DD') : humanizeDate(dayjs().toISOString(), 'YYYY-MM-DD'),
     'dateTo': dateTo !== null ? humanizeDate(dateTo, 'YYYY-MM-DD') : humanizeDate(dayjs().toISOString(), 'YYYY-MM-DD'),
     'timeFrom': dateFrom !== null ? humanizeTime(dateFrom) : humanizeTime(dayjs().toISOString()),
-    'timeTo': dateTo !== null ? humanizeTime(dateFrom) : humanizeTime(dayjs().toISOString()),
+    'timeTo': dateTo !== null ? humanizeTime(dateTo) : humanizeTime(dayjs().toISOString()),
   };
 
-  const eventEndTime = formattedDates.dateFrom === formattedDates.dateTo ? formattedDates.timeTo : formattedDates.dateTo;
+  // const eventEndTime = formattedDates.dateFrom === formattedDates.dateTo ? formattedDates.timeTo : formattedDates.dateTo;
 
   const formatDifference = (difference) => difference < 10 ? `0${difference}` : `${difference}`;
 
@@ -32,8 +32,8 @@ const createPointTemplate = (point, currentOffers, currentDestination) => {
 
   const calculateDuration = () => {
     const daysDifference = formatDifference(getDifference(dates.dateFrom, dates.dateTo, 'days'));
-    const hoursDifference = formatDifference(getDifference(dates.dateFrom, dates.dateTo, 'hours'));
-    const minutesDifference = formatDifference(getDifference(dates.dateFrom, dates.dateTo, 'minutes'));
+    const hoursDifference = formatDifference(getDifference(dates.dateFrom, dates.dateTo, 'hours') - daysDifference * 24);
+    const minutesDifference = formatDifference(getDifference(dates.dateFrom, dates.dateTo, 'minutes') - daysDifference * 24 * 60 - hoursDifference * 60);
 
     if (daysDifference !== '00') {
       return `${daysDifference}D ${hoursDifference}H ${minutesDifference}M`;
@@ -71,9 +71,9 @@ const createPointTemplate = (point, currentOffers, currentDestination) => {
                   <h3 class="event__title">${type} ${currentDestination.name}</h3>
                   <div class="event__schedule">
                     <p class="event__time">
-                      <time class="event__start-time" datetime="${formattedDates.dateFrom}T${formattedDates.timeFrom}">${humanizeTime(formattedDates.dateFrom)}</time>
+                      <time class="event__start-time" datetime="${formattedDates.dateFrom}T${formattedDates.timeFrom}">${formattedDates.timeFrom}</time>
                       &mdash;
-                      <time class="event__end-time" datetime="${formattedDates.dateTo}T${formattedDates.timeTo}">${eventEndTime}</time>
+                      <time class="event__end-time" datetime="${formattedDates.dateTo}T${formattedDates.timeTo}">${formattedDates.timeTo}</time>
                     </p>
                     <p class="event__duration">${calculateDuration()}</p>
                   </div>

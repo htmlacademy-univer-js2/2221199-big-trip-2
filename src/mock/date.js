@@ -2,9 +2,9 @@ import dayjs from 'dayjs';
 import {getRandomInRange} from '../util';
 
 const getRandomDate = () => dayjs()
-  .add(getRandomInRange(1, 7), 'day')
-  .add(getRandomInRange(1, 23), 'hour')
-  .add(getRandomInRange(1, 59), 'minute');
+  .add(getRandomInRange(0, 7), 'day')
+  .add(getRandomInRange(0, 23), 'hour')
+  .add(getRandomInRange(0, 59), 'minute');
 
 const createRandomDates = () => {
   const firstDate = getRandomDate();
