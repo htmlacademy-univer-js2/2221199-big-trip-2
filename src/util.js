@@ -4,6 +4,6 @@ const getRandomInRange = (start, end) => start >= 0 && end >= start ? Math.round
 
 const humanizeDate = (date, form) => dayjs(date).format(form);
 
-const humanizeTime = (date) => dayjs(date).format('HH:mm');
+const humanizeTime = (date) => dayjs(date).format('HH:MM');
 
 export {getRandomInRange, humanizeDate, humanizeTime};

@@ -3,7 +3,8 @@ import TripList from '../view/trip-list';
 import SortView from '../view/sort';
 import EditPointView from '../view/point-edit';
 import PointView from '../view/point';
-import NewPointView from '../view/point-new';
+// import NewPointView from '../view/point-new';
+import EmptyListView from '../view/empty-list';
 
 
 export default class Trip {
@@ -36,7 +37,7 @@ export default class Trip {
         replaceFormToPoint();
         document.removeEventListener('keydown', onEscKeyDown);
       }
-    }
+    };
 
     pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
       replacePointToForm();
@@ -52,17 +53,25 @@ export default class Trip {
       evt.preventDefault();
       replaceFormToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
-    })
+    });
 
     render(pointComponent, this.#tripListComponent.element);
   }
 
-  init() {
+  #renderBoard = () => {
+    if (this.#pointsList.length === 0) {
+      render(new EmptyListView(), this.#container);
+      return;
+    }
     render(new SortView(), this.#container);
     render(this.#tripListComponent, this.#container);
 
     this.#pointsList.forEach((point) => {
       this.#renderPoint(point);
-    })
+    });
+  }
+
+  init() {
+    this.#renderBoard();
   }
 }
