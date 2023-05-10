@@ -1,5 +1,5 @@
 import Trip from './presenter/trip';
-import {render} from './render';
+import {render} from './framework/render';
 import FilterView from './view/filter';
 import PointsModel from './model/point';
 

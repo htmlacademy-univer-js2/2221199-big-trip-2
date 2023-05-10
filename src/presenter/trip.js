@@ -1,4 +1,4 @@
-import {render} from '../render';
+import {render} from '../framework/render';
 import TripList from '../view/trip-list';
 import SortView from '../view/sort';
 import EditPointView from '../view/point-edit';
