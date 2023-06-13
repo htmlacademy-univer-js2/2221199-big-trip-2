@@ -1,5 +1,5 @@
-import {getRandomInRange} from '../util';
-import {DESTINATIONS_COUNT} from '../consts';
+import {getRandomInRange} from '../utils/util';
+import {DESTINATIONS_COUNT} from '../utils/consts';
 
 const DESCRIPTIONS = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit',
   'Cras aliquet varius magna, non porta ligula feugiat eget',

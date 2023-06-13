@@ -1,4 +1,4 @@
-import {humanizeDate, humanizeTime} from '../util';
+import {humanizeDate, humanizeTime} from '../utils/util';
 import dayjs from 'dayjs';
 import AbstractView from '../framework/view/abstract-view';
 
@@ -23,8 +23,6 @@ const createPointTemplate = (point, currentOffers, currentDestination) => {
     'timeFrom': dateFrom !== null ? humanizeTime(dateFrom) : humanizeTime(dayjs().toISOString()),
     'timeTo': dateTo !== null ? humanizeTime(dateTo) : humanizeTime(dayjs().toISOString()),
   };
-
-  // const eventEndTime = formattedDates.dateFrom === formattedDates.dateTo ? formattedDates.timeTo : formattedDates.dateTo;
 
   const formatDifference = (difference) => difference < 10 ? `0${difference}` : `${difference}`;
 

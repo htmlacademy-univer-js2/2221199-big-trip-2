@@ -1,5 +1,5 @@
-import {getRandomInRange} from '../util';
-import {OFFER_TITLES, MAX_OFFERS_COUNT} from '../consts';
+import {getRandomInRange} from '../utils/util';
+import {OFFER_TITLES, MAX_OFFERS_COUNT} from '../utils/consts';
 
 const generateOffer = (id) => ({
   'id': id,

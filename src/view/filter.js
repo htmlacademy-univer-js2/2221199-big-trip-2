@@ -1,28 +1,29 @@
 import AbstractView from '../framework/view/abstract-view';
 
-const createFilterTemplate = () => (
-  `<form class="trip-filters" action="#" method="get">
-                <div class="trip-filters__filter">
-                  <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything">
-                  <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
-                </div>
+const createFilterTemplate = (filters) => {
 
-                <div class="trip-filters__filter">
-                  <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future">
-                  <label class="trip-filters__filter-label" for="filter-future">Future</label>
-                </div>
+  const filtersTemplate = filters.map(({ name, filteredPoints }, index) =>
+    `<div class="trip-filters__filter">
+                      <input id="filter-${name}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${name}" ${index === 0 ? 'checked' : 0} ${filteredPoints.count === 0 ? 'disabled' : 0}>
+                      <label class="trip-filters__filter-label" for="filter-${name}">${name}</label>
+                    </div>`
+  ).join(' ');
 
-                <div class="trip-filters__filter">
-                  <input id="filter-past" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="past" checked>
-                  <label class="trip-filters__filter-label" for="filter-past">Past</label>
-                </div>
-
-                <button class="visually-hidden" type="submit">Accept filter</button>
-              </form>`
-);
+  return (
+    `<form class="trip-filters" action="#" method="get">
+                  ${filtersTemplate}
+                  <button class="visually-hidden" type="submit">Accept filter</button>
+                </form>`
+  );
+};
 
 export default class FilterView extends AbstractView {
+  #filters;
+  constructor(filters) {
+    super();
+    this.#filters = filters;
+  }
   get template() {
-    return createFilterTemplate();
+    return createFilterTemplate(this.#filters);
   }
 }

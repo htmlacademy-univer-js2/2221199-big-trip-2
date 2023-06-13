@@ -1,5 +1,5 @@
 import generatePoint from '../mock/point';
-import {POINTS_COUNT} from '../consts';
+import {POINTS_COUNT} from '../utils/consts';
 import destinations from '../mock/destination';
 import {offersByType} from '../mock/offer';
 

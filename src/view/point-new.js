@@ -1,4 +1,4 @@
-import {humanizeDate, humanizeTime} from '../util';
+import {humanizeDate, humanizeTime} from '../utils/util';
 import AbstractView from '../framework/view/abstract-view';
 
 const createNewPointTemplate = (offersByType, destinations, point={}) => {
