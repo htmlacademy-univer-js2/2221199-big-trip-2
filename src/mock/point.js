@@ -1,6 +1,6 @@
-import {getRandomInRange} from '../util';
+import {getRandomInRange} from '../utils/util';
 import {createRandomDates} from './date';
-import {DESTINATIONS_COUNT, MAX_OFFERS_COUNT} from '../consts';
+import {DESTINATIONS_COUNT, MAX_OFFERS_COUNT} from '../utils/consts';
 
 const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
@@ -10,6 +10,7 @@ const generateBasePrice = () => getRandomInRange(100, 1500);
 
 const generatePoint = (id) => {
   const generatedDates = createRandomDates();
+
   return {
     id,
     'type': generateTypePoint(),
