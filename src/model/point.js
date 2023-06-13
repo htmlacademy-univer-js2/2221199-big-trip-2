@@ -8,7 +8,7 @@ class PointsModel {
   #destinations;
   #offersByType;
   constructor() {
-    this.#points = Array.from({length: POINTS_COUNT}, (_, i) => generatePoint(i + 1));
+    this.#points = Array.from({length: POINTS_COUNT}, () => generatePoint());
     this.#destinations = Array.from(destinations);
     this.#offersByType = JSON.parse(JSON.stringify(offersByType));
   }
