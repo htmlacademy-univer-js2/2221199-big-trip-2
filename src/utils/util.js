@@ -9,5 +9,4 @@ const isPointInFuture = (date) => dayjs().isBefore(date);
 const isPointInPast = (date) => dayjs().isAfter(date);
 
 
-
 export {getRandomInRange, humanizeDate, humanizeTime, isPointInPast, isPointInFuture};
