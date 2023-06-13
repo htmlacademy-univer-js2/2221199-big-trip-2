@@ -17,12 +17,13 @@ const updateItem = (items, update) => {
   if (index === -1) {
     return items;
   }
-
-  return [
+  const res = [
     ...items.slice(0, index),
     update,
-    ...items.slice(index + 1)
+    ...items.slice(index + 1),
   ];
+  console.log(res)
+  return res
 };
 
 const filters = {
