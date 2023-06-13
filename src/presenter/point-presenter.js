@@ -42,26 +42,26 @@ export default class PointPresenter {
       document.removeEventListener('keydown', this.#onEscKeyDown);
     });
 
-    if (prevPointComponent == null || prevPointEditComponent === null) {
-      render(this.#pointComponent, this.#tripListContainer)
-      return
+    if (prevPointComponent === null || prevPointEditComponent === null) {
+      render(this.#pointComponent, this.#tripListContainer);
+      return;
     }
 
     if (this.#tripListContainer.contains(prevPointComponent.element)) {
-      replace(this.#pointComponent, prevPointComponent)
+      replace(this.#pointComponent, prevPointComponent);
     }
 
     if (this.#tripListContainer.contains(prevPointEditComponent.element)) {
-      replace(this.#pointEditComponent, prevPointEditComponent)
+      replace(this.#pointEditComponent, prevPointEditComponent);
     }
 
-    remove(prevPointComponent)
-    remove(prevPointEditComponent)
+    remove(prevPointComponent);
+    remove(prevPointEditComponent);
   };
 
   destroy = () => {
-    remove(this.#pointComponent)
-    remove(this.#pointEditComponent)
+    remove(this.#pointComponent);
+    remove(this.#pointEditComponent);
   }
 
   #replacePointToForm = () => {
@@ -81,6 +81,6 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite})
+    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite});
   };
 }
