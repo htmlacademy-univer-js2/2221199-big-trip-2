@@ -1,4 +1,4 @@
-import {humanizeDate, humanizeTime} from '../utils/util';
+import {getDifference, humanizeDate, humanizeTime} from '../utils/util';
 import dayjs from 'dayjs';
 import AbstractView from '../framework/view/abstract-view';
 
@@ -26,7 +26,6 @@ const createPointTemplate = (point, currentOffers, currentDestination) => {
 
   const formatDifference = (difference) => difference < 10 ? `0${difference}` : `${difference}`;
 
-  const getDifference = (firstDate, secondDate, param) => dayjs(secondDate).diff(firstDate, param);
 
   const calculateDuration = () => {
     const daysDifference = formatDifference(getDifference(dates.dateFrom, dates.dateTo, 'days'));

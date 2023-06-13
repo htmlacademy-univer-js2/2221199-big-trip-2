@@ -3,8 +3,8 @@ import TripList from '../view/trip-list';
 import SortView from '../view/sort';
 import EditPointView from '../view/point-edit';
 import PointView from '../view/point';
-// import NewPointView from '../view/point-new';
 import EmptyListView from '../view/empty-list';
+import generateSorts from '../mock/sort';
 
 
 export default class Trip {
@@ -62,14 +62,13 @@ export default class Trip {
       render(new EmptyListView(), this.#container);
       return;
     }
-    render(new SortView(), this.#container);
+    const sorts = generateSorts(this.#pointsModel.points);
+    render(new SortView(sorts), this.#container);
     render(this.#tripListComponent, this.#container);
 
     this.#pointsList.forEach((point) => {
       this.#renderPoint(point);
     });
-
-    // render(new NewPointView(this.#pointsModel.offersByType, this.#pointsModel.destinations), this.#tripListComponent.element);
   }
 
   init() {

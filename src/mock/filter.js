@@ -1,10 +1,10 @@
-import {filters} from '../utils/filter';
+import {filters} from '../utils/util';
 
-const generateFilter = (points) => Object.entries(filters).map(
-  ([filterName, filter]) => ({
-    name: filterName,
+const generateFilters = (points) => Object.entries(filters).map(
+  ([name, filter]) => ({
+    name,
     filteredPoints: filter(points)
   })
 );
 
-export default generateFilter;
+export default generateFilters;
