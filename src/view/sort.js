@@ -1,8 +1,8 @@
 import AbstractView from '../framework/view/abstract-view';
 import {SORT_TYPES} from '../utils/consts';
 
-const createSortTemplate = () => {
-  return (
+const createSortTemplate = () =>
+  (
     `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
             <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
               <div class="trip-sort__item  trip-sort__item--day">
@@ -27,7 +27,6 @@ const createSortTemplate = () => {
               </div>
             </form>`
   );
-};
 
 export default class SortView extends AbstractView {
   get template() {
@@ -41,7 +40,7 @@ export default class SortView extends AbstractView {
 
   #sortTypeChangeHandler = (evt) => {
     if (evt.target.tagName !== 'LABEL') {
-      return
+      return;
     }
 
     evt.preventDefault();

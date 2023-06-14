@@ -2,7 +2,6 @@ import {render} from '../framework/render';
 import TripList from '../view/trip-list';
 import SortView from '../view/sort';
 import EmptyListView from '../view/empty-list';
-import generateSorts from '../mock/sort';
 import PointPresenter from './point-presenter';
 import {sorts, updateItem} from '../utils/util';
 import {SORT_TYPES} from '../utils/consts';
@@ -80,7 +79,7 @@ export default class TripPresenter {
 
   #renderSort = () => {
     render(this.#sortComponent, this.#container);
-    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange)
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   }
 
   #renderTripList = () => {
