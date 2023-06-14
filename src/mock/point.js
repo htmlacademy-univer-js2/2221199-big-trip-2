@@ -13,14 +13,14 @@ const generatePoint = () => {
   const generatedDates = createRandomDates();
 
   return {
-    'id': nanoid(),
-    'type': generateTypePoint(),
-    'base_price': generateBasePrice(),
-    'date_from': generatedDates.dateFrom,
-    'date_to': generatedDates.dateTo,
-    'destination': getRandomInRange(0, DESTINATIONS_COUNT - 1),
-    'is_favorite': Boolean(getRandomInRange(0, 1)),
-    'offers': Array.from({length: getRandomInRange(0, MAX_OFFERS_COUNT)}, (_, i) => i + 1),
+    id: nanoid(),
+    type: generateTypePoint(),
+    basePrice: generateBasePrice(),
+    dateFrom: generatedDates.dateFrom,
+    dateTo: generatedDates.dateTo,
+    destination: getRandomInRange(0, DESTINATIONS_COUNT - 1),
+    isFavorite: Boolean(getRandomInRange(0, 1)),
+    offers: Array.from({length: getRandomInRange(0, MAX_OFFERS_COUNT)}, (_, i) => i + 1),
   };
 };
 

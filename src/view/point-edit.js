@@ -4,9 +4,9 @@ import AbstractView from '../framework/view/abstract-view';
 const createEditPointTemplate = (point, currentOffers, currentDestination) => {
   const {
     type,
-    base_price: basePrice,
-    date_from: dateFrom,
-    date_to: dateTo,
+    basePrice,
+    dateFrom,
+    dateTo,
     offers
   } = point;
 

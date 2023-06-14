@@ -21,7 +21,7 @@ const updateItem = (items, update) => {
   return [
     ...items.slice(0, index),
     update,
-    ...items.slice(index + 1)
+    ...items.slice(index + 1),
   ];
 };
 
