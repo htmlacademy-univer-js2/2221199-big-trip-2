@@ -13,15 +13,15 @@ export default class PointPresenter {
   #pointEditComponent = null;
   #point = null;
   #pointsModel = null;
-  #changeData = null;
-  #changeMode = null;
+  #handleDataChange = null;
+  HandleModeChange = null;
   #mode = Mode.DEFAULT;
 
-  constructor(tripListContainer, pointsModel, changeData, changeMode) {
+  constructor(tripListContainer, pointsModel, onChangeData, onChangeMode) {
     this.#tripListContainer = tripListContainer;
     this.#pointsModel = pointsModel;
-    this.#changeData = changeData;
-    this.#changeMode = changeMode;
+    this.#handleDataChange = onChangeData;
+    this.HandleModeChange = onChangeMode;
   }
 
   init = (point) => {
@@ -45,7 +45,8 @@ export default class PointPresenter {
       document.removeEventListener('keydown', this.#onEscKeyDown);
     });
 
-    this.#pointEditComponent.setSubmitHandler(() => {
+    this.#pointEditComponent.setSubmitHandler((point) => {
+      this.#handleDataChange(point);
       this.#replaceFormToPoint();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     });
@@ -80,7 +81,7 @@ export default class PointPresenter {
 
   #replacePointToForm = () => {
     replace(this.#pointEditComponent, this.#pointComponent);
-    this.#changeMode();
+    this.HandleModeChange();
     this.#mode = Mode.EDITING;
   };
 
@@ -98,6 +99,6 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite});
+    this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
   };
 }
