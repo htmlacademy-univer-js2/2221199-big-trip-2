@@ -46,7 +46,6 @@ export default class PointPresenter {
     });
 
     this.#pointEditComponent.setSubmitHandler(() => {
-      // this.#changeData(newpoint);
       this.#replaceFormToPoint();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     });
@@ -99,6 +98,6 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, is_favorite: !this.#point.is_favorite});
+    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite});
   };
 }

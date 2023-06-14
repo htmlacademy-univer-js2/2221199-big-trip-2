@@ -5,10 +5,10 @@ import AbstractView from '../framework/view/abstract-view';
 const createPointTemplate = (point, currentOffers, currentDestination) => {
   const {
     type,
-    base_price: basePrice,
-    date_from: dateFrom,
-    date_to: dateTo,
-    is_favorite: isFavorite,
+    basePrice,
+    dateFrom,
+    dateTo,
+    isFavorite,
     offers
   } = point;
 
