@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {FILTERS_TYPES, SORT_TYPES} from './consts';
+import {FILTERS_TYPES} from './consts';
 
 const getRandomInRange = (start, end) => start >= 0 && end >= start ? Math.round(Math.random() * (end - start)) + start : -1;
 
@@ -32,11 +32,9 @@ const filters = {
 };
 
 const sorts = {
-  [SORT_TYPES.DAY]: (points) => points.sort((current, next) => getDifference(next.date_from, current.date_from, 'day')),
-  [SORT_TYPES.EVENT]: () => null,
-  [SORT_TYPES.TIME]: (points) => points.sort((current, next) => getDifference(current.date_from, current.date_to, 'minute') - getDifference(next.date_from, next.date_to, 'minute')),
-  [SORT_TYPES.PRICE]: (points) => points.sort((current, next) => current.base_price - next.base_price),
-  [SORT_TYPES.OFFER]: () => null,
+  sortByDay: (points) => points.sort((current, next) => getDifference(next.dateFrom, current.dateFrom, '')),
+  sortByTime: (points) => points.sort((current, next) => getDifference(next.dateFrom, next.dateTo, 'second') - getDifference(current.dateFrom, current.dateTo, 'second')),
+  sortByPrice: (points) => points.sort((current, next) => next.basePrice - current.basePrice),
 };
 
 export {getRandomInRange, humanizeDate, humanizeTime, getDifference, isPointInPast, isPointInFuture, filters, sorts, updateItem};
