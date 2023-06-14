@@ -21,7 +21,7 @@ const SORT_TYPES = {
   EVENT: 'event',
   TIME: 'time',
   PRICE: 'price',
-  OFFER: 'offers',
+  OFFERS: 'offers',
 };
 
 export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT, POINTS_COUNT, FILTERS_TYPES, EMPTY_FILTERS_MESSAGES, SORT_TYPES};
