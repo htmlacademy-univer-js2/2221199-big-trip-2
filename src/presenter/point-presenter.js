@@ -31,7 +31,7 @@ export default class PointPresenter {
     const prevPointEditComponent = this.#pointEditComponent;
 
     this.#pointComponent = new PointView(this.#point, this.#pointsModel.getPointOffers(this.#point), this.#pointsModel.getPointDestination(this.#point));
-    this.#pointEditComponent = new EditPointView(this.#point, this.#pointsModel.getPointOffers(this.#point), this.#pointsModel.getPointDestination(this.#point));
+    this.#pointEditComponent = new EditPointView(this.#point, this.#pointsModel.offersByType, this.#pointsModel.destinations);
 
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
@@ -41,7 +41,7 @@ export default class PointPresenter {
     });
 
     this.#pointEditComponent.setCloseClickHandler(() => {
-      this.#replaceFormToPoint();
+      this.resetView();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     });
 
@@ -75,6 +75,7 @@ export default class PointPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
+      this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToPoint();
     }
   }
@@ -93,7 +94,7 @@ export default class PointPresenter {
   #onEscKeyDown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      this.#replacePointToForm();
+      this.resetView();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     }
   };

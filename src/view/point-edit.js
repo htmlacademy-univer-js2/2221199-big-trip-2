@@ -1,15 +1,19 @@
 import {humanizeDate, humanizeTime} from '../utils/util';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
-import destinations from '../mock/destination';
+import {offersByType} from '../mock/offer';
 
-const createEditPointTemplate = (point, allOffers, currentDestination) => {
+const createEditPointTemplate = (point, destinations) => {
   const {
     type,
     basePrice,
     dateFrom,
     dateTo,
     offers,
+    destination,
+    currTypeOffers
   } = point;
+
+  const currentDestination = destinations[destination];
 
   console.log(currentDestination)
 
@@ -30,7 +34,7 @@ const createEditPointTemplate = (point, allOffers, currentDestination) => {
         </label>
       </div>`);
 
-    return allOffers.map(getOffer).join(' ');
+    return currTypeOffers.map(getOffer).join(' ');
   };
   const createPhotosList = () => {
     const getPhoto = (photo) => (
@@ -157,28 +161,32 @@ const createEditPointTemplate = (point, allOffers, currentDestination) => {
 };
 
 export default class EditPointView extends AbstractStatefulView {
-  #offers;
-  #destination;
+  #offersByType = null;
+  #destinations = null;
   // #handleFormSubmit = null;
   // #handleCloseClick = null;
-  constructor(point, offers, destination) {
+  constructor(point, offersByType, destinations) {
     super();
-    this.#offers = offers;
-    this.#destination = destination;
+    this.#offersByType = offersByType;
+    this.#destinations = destinations;
     // this.#handleFormSubmit = onFormSubmit;
     // this.#handleCloseClick = onClose;
-    this._setState(EditPointView.parsePointToState(point));
+    this._setState(EditPointView.parsePointToState(point, this.#offersByType));
     this.#setInnerHandlers();
   }
 
   get template() {
-    return createEditPointTemplate(this._state, this.#offers, this.#destination);
+    return createEditPointTemplate(this._state, this.#destinations);
   }
 
   _restoreHandlers() {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.formSubmit);
     this.setCloseClickHandler(this._callback.closeClick);
+  }
+
+  reset(point) {
+    this.updateElement(EditPointView.parsePointToState(point, offersByType))
   }
 
   #closeClickHandler = (evt) => {
@@ -198,19 +206,20 @@ export default class EditPointView extends AbstractStatefulView {
   };
 
   #destinationChangeHandler = (evt) => {
-    const newDestination = destinations.filter((destination) => destination.name === evt.target.value);
+    const newDestination = this.#destinations.find((destination) => destination.name === evt.target.value);
     if (!newDestination) {
       return;
     }
     this.updateElement({
-      destination: newDestination
+      destination: newDestination.id
     });
   };
 
   #typeChangeHandler = (evt) => {
     this.updateElement({
       type: evt.target.value,
-      offers: []
+      offers: [],
+      currTypeOffers: this.#offersByType.find((x) => x.type === evt.target.value).offers
     });
   };
 
@@ -248,7 +257,14 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   };
 
-  static parsePointToState = (point) => ({...point});
+  static parsePointToState = (point, offersByType) => ({
+    ...point,
+    currTypeOffers: offersByType.find((x) => x.type === point.type).offers
+  });
 
-  static parseStateToPoint = (state) => ({...state});
+  static parseStateToPoint = (state) => {
+    const point = {...state};
+    delete point.currTypeOffers;
+    return (point);
+  };
 }
