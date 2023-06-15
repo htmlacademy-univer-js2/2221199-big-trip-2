@@ -1,7 +1,7 @@
 import {remove, render} from '../framework/render';
-import TripList from '../view/trip-list';
-import SortView from '../view/sort';
-import EmptyListView from '../view/empty-list';
+import TripListView from '../view/trip-list-view';
+import SortView from '../view/sort-view';
+import EmptyListView from '../view/empty-list-view';
 import PointPresenter from './point-presenter';
 import {sorts} from '../utils/util';
 import {SortTypes, UpdateType, UserAction} from '../utils/consts';
@@ -10,7 +10,7 @@ import {SortTypes, UpdateType, UserAction} from '../utils/consts';
 export default class TripPresenter {
   #container = null;
   #pointsModel = null;
-  #tripListComponent = new TripList();
+  #tripListComponent = new TripListView();
   #pointPresenters = new Map();
   #sortComponent = new SortView();
   #currentSortType = SortTypes.DAY;

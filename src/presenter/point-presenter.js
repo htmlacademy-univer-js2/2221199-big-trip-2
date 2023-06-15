@@ -1,5 +1,5 @@
-import PointView from '../view/point';
-import EditPointView from '../view/point-edit';
+import PointView from '../view/point-view';
+import EditPointView from '../view/point-edit-view';
 import {remove, render, replace} from '../framework/render';
 import {UpdateType, UserAction} from '../utils/consts';
 import {isDateEqual} from '../utils/util';
