@@ -1,6 +1,5 @@
 import {humanizeDate, humanizeTime} from '../utils/util';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
-import {offersByType} from '../mock/offer';
 
 const createEditPointTemplate = (point, destinations) => {
   const {
@@ -14,8 +13,6 @@ const createEditPointTemplate = (point, destinations) => {
   } = point;
 
   const currentDestination = destinations[destination];
-
-  console.log(currentDestination)
 
   const checkTypePoint = (currentType) => currentType === type ? 'checked' : '';
 
@@ -186,7 +183,7 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   reset(point) {
-    this.updateElement(EditPointView.parsePointToState(point, offersByType))
+    this.updateElement(EditPointView.parsePointToState(point, this.#offersByType));
   }
 
   #closeClickHandler = (evt) => {
@@ -228,12 +225,12 @@ export default class EditPointView extends AbstractStatefulView {
     if (this._state.offers.includes(currentOffer)) {
       this._setState({
         offers: this._state.offers.filter((offer) => offer !== currentOffer)
-      })
+      });
     }
     else {
       this._setState({
         offers: [...this._state.offers, currentOffer]
-      })
+      });
     }
     this.updateElement({
       offers: this._state.offers,
