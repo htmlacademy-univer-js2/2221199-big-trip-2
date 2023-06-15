@@ -5,6 +5,7 @@ import EmptyListView from '../view/empty-list-view';
 import PointPresenter from './point-presenter';
 import {filters, sorts} from '../utils/util';
 import {FiltersTypes, SortTypes, UpdateType, UserAction} from '../utils/consts';
+import NewPointPresenter from './new-point-presenter';
 
 
 export default class TripPresenter {
@@ -14,14 +15,17 @@ export default class TripPresenter {
 
   #tripListComponent = new TripListView();
   #pointPresenters = new Map();
+  #newPointPresenter = null;
   #sortComponent = new SortView();
   #currentSortType = SortTypes.DAY;
   #currentFilterType = FiltersTypes.EVERYTHING;
   #emptyListComponent = null;
-  constructor(container, pointsModel, filterModel) {
+  constructor(container, pointsModel, filterModel, onNewPointDestroy) {
     this.#container = container;
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
+
+    this.#newPointPresenter = new NewPointPresenter(this.#container, this.#pointsModel, this.#handleViewAction, onNewPointDestroy);
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -38,7 +42,14 @@ export default class TripPresenter {
     this.#renderTrip();
   }
 
+  createTask = () => {
+    this.#currentSortType = SortTypes.DAY;
+    this.#filterModel.setFilter(UpdateType.MAJOR, FiltersTypes.EVERYTHING);
+    this.#newPointPresenter.init();
+  }
+
   #clearTrip = (resetSortType = false) => {
+    this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
 

@@ -16,14 +16,14 @@ export default class PointPresenter {
   #point = null;
   #pointsModel = null;
   #handleDataChange = null;
-  HandleModeChange = null;
+  #handleModeChange = null;
   #mode = Mode.DEFAULT;
 
   constructor(tripListContainer, pointsModel, onChangeData, onChangeMode) {
     this.#tripListContainer = tripListContainer;
     this.#pointsModel = pointsModel;
     this.#handleDataChange = onChangeData;
-    this.HandleModeChange = onChangeMode;
+    this.#handleModeChange = onChangeMode;
   }
 
   init = (point) => {
@@ -33,12 +33,16 @@ export default class PointPresenter {
     const prevPointEditComponent = this.#pointEditComponent;
 
     this.#pointComponent = new PointView(this.#point, this.#pointsModel.offersByType, this.#pointsModel.destinations);
-    this.#pointEditComponent = new EditPointView(this.#point, this.#pointsModel.offersByType, this.#pointsModel.destinations);
+    this.#pointEditComponent = new EditPointView({
+      point: this.#point,
+      offersByType: this.#pointsModel.offersByType,
+      destinations: this.#pointsModel.destinations
+    });
 
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#pointComponent.setEditClickHandler(this.#handleEditClick);
     this.#pointEditComponent.setCloseClickHandler(this.#handleCloseClick);
-    this.#pointEditComponent.setSubmitHandler(this.#handleFormSubmit);
+    this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -72,7 +76,7 @@ export default class PointPresenter {
 
   #replacePointToForm = () => {
     replace(this.#pointEditComponent, this.#pointComponent);
-    this.HandleModeChange();
+    this.#handleModeChange();
     this.#mode = Mode.EDITING;
   };
 
@@ -86,7 +90,7 @@ export default class PointPresenter {
       UserAction.DELETE_POINT,
       UpdateType.MINOR,
       task,
-    )
+    );
   }
 
   #handleEscKeyDown = (evt) => {

@@ -4,6 +4,19 @@ import flatpickr from 'flatpickr';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
+const BLANK_POINT = {
+  basePrice: 0,
+  // dateFrom: null,
+  // dateTo: null,
+  dateFrom: new Date(),
+  dateTo: new Date(),
+  destination: 0,
+  id: 0,
+  isFavorite: false,
+  offers: [],
+  type: 'taxi',
+};
+
 const createEditPointTemplate = (point, destinations) => {
   const {
     type,
@@ -156,7 +169,7 @@ export default class EditPointView extends AbstractStatefulView {
   #datepickerTo = null;
   #offersByType = null;
   #destinations = null;
-  constructor(point, offersByType, destinations) {
+  constructor({point = BLANK_POINT, offersByType, destinations}) {
     super();
     this.#offersByType = offersByType;
     this.#destinations = destinations;
@@ -186,7 +199,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   _restoreHandlers() {
     this.#setInnerHandlers();
-    this.setSubmitHandler(this._callback.formSubmit);
+    this.setFormSubmitHandler(this._callback.formSubmit);
     this.setCloseClickHandler(this._callback.closeClick);
     this.setDeleteClickHandler(this._callback.deleteClick);
     this.#setDatepickerFrom();
@@ -280,7 +293,6 @@ export default class EditPointView extends AbstractStatefulView {
         defaultDate: this._state.dateFrom,
         enableTime: true,
         onChange: this.#datepickerFromChangeHandler,
-        time_24hr: true,
       }
     );
   }
@@ -293,7 +305,6 @@ export default class EditPointView extends AbstractStatefulView {
         defaultDate: this._state.dateTo,
         enableTime: true,
         onChange: this.#datepickerToChangeHandler,
-        time_24hr: true,
       }
     );
   }
@@ -308,7 +319,7 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formCloseClickHandler);
   };
 
-  setSubmitHandler = (callback) => {
+  setFormSubmitHandler = (callback) => {
     this._callback.formSubmit = callback;
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   };
