@@ -1,12 +1,12 @@
 import AbstractView from '../framework/view/abstract-view';
 
-const createTripListTemplate = () => (
+const createTripInfoTemplate = () => (
   `<ul class="trip-events__list">
     </ul>`
 );
 
-export default class TripList extends AbstractView {
+export default class TripInfoView extends AbstractView {
   get template() {
-    return createTripListTemplate();
+    return createTripInfoTemplate();
   }
 }

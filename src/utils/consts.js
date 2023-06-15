@@ -1,27 +1,33 @@
-const DESTINATIONS_COUNT = 5;
+const DESTINATIONS_COUNT = 3;
 
 const OFFER_TITLES = ['Offer', 'Another offer', 'Usual offer', 'Cheap offer', 'Expensive offer', 'Useless offer', 'Premium offer', 'Good offer', 'Bad offer', 'Amazing offer'];
 const MAX_OFFERS_COUNT = 3;
 const POINTS_COUNT = 5;
 
-const FILTERS_TYPES = {
+const FiltersTypes = {
   PAST: 'past',
   EVERYTHING: 'everything',
   FUTURE: 'future',
 };
 
-const EMPTY_FILTERS_MESSAGES = {
-  PAST: 'There are no past events now',
-  EVERYTHING: 'Click New Event to create your first point',
-  FUTURE: 'There are no future events now',
-};
-
-const SORT_TYPES = {
+const SortTypes = {
   DAY: 'day',
   EVENT: 'event',
   TIME: 'time',
   PRICE: 'price',
-  OFFER: 'offers',
+  OFFERS: 'offers',
 };
 
-export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT, POINTS_COUNT, FILTERS_TYPES, EMPTY_FILTERS_MESSAGES, SORT_TYPES};
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
+export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT, POINTS_COUNT, FiltersTypes, SortTypes, UserAction, UpdateType};

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {FILTERS_TYPES, SORT_TYPES} from './consts';
+import {FiltersTypes, SortTypes} from './consts';
 
 const getRandomInRange = (start, end) => start >= 0 && end >= start ? Math.round(Math.random() * (end - start)) + start : -1;
 
@@ -11,32 +11,18 @@ const isPointInPast = (date) => dayjs().isAfter(date);
 
 const getDifference = (firstDate, secondDate, param) => dayjs(secondDate).diff(firstDate, param);
 
-const updateItem = (items, update) => {
-  const index = items.findIndex((item) => item.id === update.id);
-
-  if (index === -1) {
-    return items;
-  }
-
-  return [
-    ...items.slice(0, index),
-    update,
-    ...items.slice(index + 1)
-  ];
-};
+const isDateEqual = (firstDate, secondDate) => (firstDate === null && secondDate === null) || dayjs(firstDate).isSame(secondDate, 'm');
 
 const filters = {
-  [FILTERS_TYPES.EVERYTHING]: (points) => points,
-  [FILTERS_TYPES.FUTURE]: (points) => points.filter((point) => isPointInFuture(point.date_from)),
-  [FILTERS_TYPES.PAST]: (points) => points.filter((point) => isPointInPast(point.date_to)),
+  [FiltersTypes.EVERYTHING]: (points) => [...points],
+  [FiltersTypes.FUTURE]: (points) => points.filter((point) => isPointInFuture(point.dateFrom)),
+  [FiltersTypes.PAST]: (points) => points.filter((point) => isPointInPast(point.dateTo)),
 };
 
 const sorts = {
-  [SORT_TYPES.DAY]: (points) => points.sort((current, next) => getDifference(next.date_from, current.date_from, 'day')),
-  [SORT_TYPES.EVENT]: () => null,
-  [SORT_TYPES.TIME]: (points) => points.sort((current, next) => getDifference(current.date_from, current.date_to, 'minute') - getDifference(next.date_from, next.date_to, 'minute')),
-  [SORT_TYPES.PRICE]: (points) => points.sort((current, next) => current.base_price - next.base_price),
-  [SORT_TYPES.OFFER]: () => null,
+  [SortTypes.DAY]: (points) => points.sort((current, next) => getDifference(next.dateFrom, current.dateFrom, '')),
+  [SortTypes.TIME]: (points) => points.sort((current, next) => getDifference(next.dateFrom, next.dateTo, 'second') - getDifference(current.dateFrom, current.dateTo, 'second')),
+  [SortTypes.PRICE]: (points) => points.sort((current, next) => next.basePrice - current.basePrice),
 };
 
-export {getRandomInRange, humanizeDate, humanizeTime, getDifference, isPointInPast, isPointInFuture, filters, sorts, updateItem};
+export {getRandomInRange, humanizeDate, humanizeTime, getDifference, isPointInPast, isPointInFuture, isDateEqual, filters, sorts};
