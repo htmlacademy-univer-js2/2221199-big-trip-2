@@ -2,7 +2,7 @@ import {humanizeDate, humanizeTime} from '../utils/util';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import flatpickr from 'flatpickr';
 
-import 'flatpickr/dist/flatpickr.min.css'
+import 'flatpickr/dist/flatpickr.min.css';
 
 const createEditPointTemplate = (point, destinations) => {
   const {
@@ -21,30 +21,21 @@ const createEditPointTemplate = (point, destinations) => {
 
   const getFullDate = (date, format) => `${humanizeDate(date, format)} ${humanizeTime(date)}`;
 
-  const createOffersList = () => {
-    let currentOfferId = 0;
-    const getOffer = (offer) =>
-      (
-        `<div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-${++currentOfferId}" type="checkbox" name="event-offer-comfort" data-id="${offer.id}" ${offers.find((x) => x === offer.id) ? 'checked' : ''}>
-        <label class="event__offer-label" for="event-offer-comfort-${currentOfferId}"  >
+  const createOffersList = () =>
+    currTypeOffers.map((offer) => (
+      `<div class="event__offer-selector">
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-${offer.id}" type="checkbox" name="event-offer-comfort" data-id="${offer.id}" ${offers.find((x) => x === offer.id) ? 'checked' : ''}>
+        <label class="event__offer-label" for="event-offer-comfort-${offer.id}"  >
       <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
         </label>
-      </div>`);
+      </div>`)
+    ).join(' ');
 
-    return currTypeOffers.map(getOffer).join(' ');
-  };
-  const createPhotosList = () => {
-    const getPhoto = (photo) => (
-      `<img class="event__photo" src="${photo.src}" alt="Event photo">`
-    );
+  const createPhotosList = () => currentDestination.pictures.map((photo) => `<img class="event__photo" src="${photo.src}" alt="Event photo">`).join(' ');
 
-    return currentDestination.pictures.map(getPhoto).join(' ');
-  };
-
-  const destinationsOptions = destinations.map(({name}) => `<option value="${name}">${name}</option>`).join('\n');
+  const createDestinationsOptions = () => destinations.map(({name}) => `<option value="${name}">${name}</option>`).join('\n');
 
   return (
     `<li class="trip-events__item">
@@ -115,7 +106,7 @@ const createEditPointTemplate = (point, destinations) => {
                       </label>
                       <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${currentDestination.name}" list="destination-list-1">
                       <datalist id="destination-list-1">
-                        ${destinationsOptions}
+                        ${createDestinationsOptions()}
                       </datalist>
                     </div>
 
@@ -165,14 +156,10 @@ export default class EditPointView extends AbstractStatefulView {
   #datepickerTo = null;
   #offersByType = null;
   #destinations = null;
-  // #handleFormSubmit = null;
-  // #handleCloseClick = null;
   constructor(point, offersByType, destinations) {
     super();
     this.#offersByType = offersByType;
     this.#destinations = destinations;
-    // this.#handleFormSubmit = onFormSubmit;
-    // this.#handleCloseClick = onClose;
     this._setState(EditPointView.parsePointToState(point, this.#offersByType));
     this.#setInnerHandlers();
     this.#setDatepickerFrom();
@@ -201,6 +188,7 @@ export default class EditPointView extends AbstractStatefulView {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.formSubmit);
     this.setCloseClickHandler(this._callback.closeClick);
+    this.setDeleteClickHandler(this._callback.deleteClick);
     this.#setDatepickerFrom();
     this.#setDatepickerTo();
   }
@@ -209,7 +197,12 @@ export default class EditPointView extends AbstractStatefulView {
     this.updateElement(EditPointView.parsePointToState(point, this.#offersByType));
   }
 
-  #closeClickHandler = (evt) => {
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.deleteClick(EditPointView.parseStateToPoint(this._state));
+  }
+
+  #formCloseClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.closeClick();
   };
@@ -305,9 +298,14 @@ export default class EditPointView extends AbstractStatefulView {
     );
   }
 
+  setDeleteClickHandler = (callback) => {
+    this._callback.deleteClick = callback;
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
+  }
+
   setCloseClickHandler = (callback) => {
     this._callback.closeClick = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeClickHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formCloseClickHandler);
   };
 
   setSubmitHandler = (callback) => {

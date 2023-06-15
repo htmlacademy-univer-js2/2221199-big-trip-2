@@ -2,16 +2,12 @@ import generatePoint from '../mock/point';
 import {POINTS_COUNT} from '../utils/consts';
 import destinations from '../mock/destination';
 import {offersByType} from '../mock/offer';
+import Observable from '../framework/observable';
 
-class PointsModel {
-  #points;
-  #destinations;
-  #offersByType;
-  constructor() {
-    this.#points = Array.from({length: POINTS_COUNT}, () => generatePoint());
-    this.#destinations = Array.from(destinations);
-    this.#offersByType = JSON.parse(JSON.stringify(offersByType));
-  }
+class PointsModel extends Observable {
+  #points = Array.from({length: POINTS_COUNT}, () => generatePoint());
+  #destinations = Array.from(destinations);
+  #offersByType = JSON.parse(JSON.stringify(offersByType));
 
   get points() {
     return this.#points;
@@ -25,12 +21,42 @@ class PointsModel {
     return this.#offersByType;
   }
 
-  getPointDestination(point) {
-    return point ? this.#destinations.find((x) => x.id === point.destination) : this.#destinations;
+  updatePoint(updateType, update) {
+    const index = this.#points.findIndex((point) => point.id === update.id);
+
+    if (index === -1) {
+      return;
+    }
+
+    this.#points = [
+      ...this.#points.slice(0, index),
+      update,
+      ...this.#points.slice(index + 1)];
+
+    this._notify(updateType, update);
   }
 
-  getPointOffers(point) {
-    return point ? this.#offersByType.find((x) => x.type === point.type).offers : this.#offersByType;
+  addPoint(updateType, update) {
+    this.#points = [
+      update,
+      ...this.#points
+    ];
+    this._notify(updateType, update);
+  }
+
+  deletePoint(updateType, update) {
+    const index = this.#points.findIndex((point) => point.id === update.id);
+
+    if (index === -1) {
+      return;
+    }
+
+    this.#points = [
+      ...this.#points.slice(0, index),
+      ...this.#points.slice(index + 1)
+    ];
+
+    this._notify(updateType, update);
   }
 }
 
