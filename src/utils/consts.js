@@ -10,12 +10,6 @@ const FiltersTypes = {
   FUTURE: 'future',
 };
 
-const EmptyFiltersMessages = {
-  PAST: 'There are no past events now',
-  EVERYTHING: 'Click New Event to create your first point',
-  FUTURE: 'There are no future events now',
-};
-
 const SortTypes = {
   DAY: 'day',
   EVENT: 'event',
@@ -36,4 +30,4 @@ const UpdateType = {
   MAJOR: 'MAJOR',
 };
 
-export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT, POINTS_COUNT, FiltersTypes, EmptyFiltersMessages, SortTypes, UserAction, UpdateType};
+export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT, POINTS_COUNT, FiltersTypes, SortTypes, UserAction, UpdateType};

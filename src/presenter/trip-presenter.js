@@ -3,26 +3,35 @@ import TripListView from '../view/trip-list-view';
 import SortView from '../view/sort-view';
 import EmptyListView from '../view/empty-list-view';
 import PointPresenter from './point-presenter';
-import {sorts} from '../utils/util';
-import {SortTypes, UpdateType, UserAction} from '../utils/consts';
+import {filters, sorts} from '../utils/util';
+import {FiltersTypes, SortTypes, UpdateType, UserAction} from '../utils/consts';
 
 
 export default class TripPresenter {
   #container = null;
   #pointsModel = null;
+  #filterModel = null;
+
   #tripListComponent = new TripListView();
   #pointPresenters = new Map();
   #sortComponent = new SortView();
   #currentSortType = SortTypes.DAY;
+  #currentFilterType = FiltersTypes.EVERYTHING;
   #emptyListComponent = null;
-  constructor(container, pointsModel) {
+  constructor(container, pointsModel, filterModel) {
     this.#container = container;
     this.#pointsModel = pointsModel;
+    this.#filterModel = filterModel;
+
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
-    return sorts[this.#currentSortType]([...this.#pointsModel.points]);
+    this.#currentFilterType = this.#filterModel.filter;
+    const points = this.#pointsModel.points;
+    const filteredPoints = filters[this.#currentFilterType](points);
+    return sorts[this.#currentSortType](filteredPoints);
   }
 
   init() {
@@ -34,7 +43,7 @@ export default class TripPresenter {
     this.#pointPresenters.clear();
 
     remove(this.#sortComponent);
-    if (!this.#emptyListComponent) {
+    if (this.#emptyListComponent) {
       remove(this.#emptyListComponent);
     }
 
@@ -101,7 +110,7 @@ export default class TripPresenter {
   }
 
   #renderEmptyList = () => {
-    this.#emptyListComponent = new EmptyListView();
+    this.#emptyListComponent = new EmptyListView(this.#currentFilterType);
     render(this.#emptyListComponent, this.#container);
   }
 

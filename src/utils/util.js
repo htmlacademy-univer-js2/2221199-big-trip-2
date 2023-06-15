@@ -14,9 +14,9 @@ const getDifference = (firstDate, secondDate, param) => dayjs(secondDate).diff(f
 const isDateEqual = (firstDate, secondDate) => (firstDate === null && secondDate === null) || dayjs(firstDate).isSame(secondDate, 'm');
 
 const filters = {
-  [FiltersTypes.EVERYTHING]: (points) => points,
-  [FiltersTypes.FUTURE]: (points) => points.filter((point) => isPointInFuture(point.date_from)),
-  [FiltersTypes.PAST]: (points) => points.filter((point) => isPointInPast(point.date_to)),
+  [FiltersTypes.EVERYTHING]: (points) => [...points],
+  [FiltersTypes.FUTURE]: (points) => points.filter((point) => isPointInFuture(point.dateFrom)),
+  [FiltersTypes.PAST]: (points) => points.filter((point) => isPointInPast(point.dateTo)),
 };
 
 const sorts = {
