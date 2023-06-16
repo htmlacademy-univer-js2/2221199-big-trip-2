@@ -168,7 +168,7 @@ export default class EditPointView extends AbstractStatefulView {
   #datepickerTo = null;
   #offersByType = null;
   #destinations = null;
-  constructor({point = BLANK_POINT, offersByType, destinations, formSubmitHandler, formDeleteClickHandler, formCloseClickHandler}) {
+  constructor({point = BLANK_POINT, offersByType, destinations}) {
     super();
     this.#offersByType = offersByType;
     this.#destinations = destinations;

@@ -2,8 +2,6 @@ import TripPresenter from './presenter/trip-presenter';
 import PointsModel from './model/point-model';
 import FilterPresenter from './presenter/filter-presenter';
 import FilterModel from './model/filter-model';
-import NewPointButtonView from './view/new-point-button-view';
-import {render, RenderPosition} from './framework/render';
 
 const filterContainer = document.querySelector('.trip-controls__filters');
 const tripContainer = document.querySelector('.trip-events');

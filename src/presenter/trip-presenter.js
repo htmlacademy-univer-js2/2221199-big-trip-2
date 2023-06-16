@@ -54,7 +54,6 @@ export default class TripPresenter {
   }
 
   #clearTrip = (resetSortType = false) => {
-    console.log(this.#pointPresenters);
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
 
     this.#pointPresenters.clear();
@@ -126,7 +125,7 @@ export default class TripPresenter {
       this.#newPointButtonComponent = new NewPointButtonView();
       this.#newPointButtonComponent.setButtonClickHandler(this.#handleNewPointButtonClick);
     }
-    render(this.#newPointButtonComponent, this.#headerContainer)
+    render(this.#newPointButtonComponent, this.#headerContainer);
   }
 
   #renderPoint = (point) => {
