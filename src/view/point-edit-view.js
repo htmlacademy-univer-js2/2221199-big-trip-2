@@ -1,13 +1,12 @@
 import {humanizeDate, humanizeTime} from '../utils/util';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import flatpickr from 'flatpickr';
+import he from 'he';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
 const BLANK_POINT = {
   basePrice: 0,
-  // dateFrom: null,
-  // dateTo: null,
   dateFrom: new Date(),
   dateTo: new Date(),
   destination: 0,
@@ -117,7 +116,7 @@ const createEditPointTemplate = (point, destinations) => {
                       <label class="event__label  event__type-output" for="event-destination-1">
                         ${type}
                       </label>
-                      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${currentDestination.name}" list="destination-list-1">
+                      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(currentDestination.name)}" list="destination-list-1">
                       <datalist id="destination-list-1">
                         ${createDestinationsOptions()}
                       </datalist>
@@ -136,7 +135,7 @@ const createEditPointTemplate = (point, destinations) => {
                         <span class="visually-hidden">Price</span>
                         &euro;
                       </label>
-                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+                      <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${he.encode(basePrice.toString())}">
                     </div>
                     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
                     <button class="event__reset-btn" type="reset">Delete</button>
@@ -332,6 +331,6 @@ export default class EditPointView extends AbstractStatefulView {
   static parseStateToPoint = (state) => {
     const point = {...state};
     delete point.currTypeOffers;
-    return (point);
+    return point;
   };
 }
