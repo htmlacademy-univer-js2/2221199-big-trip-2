@@ -28,4 +28,4 @@ pointsModel.init().finally(() => {
     tripPresenter.createPoint(() => { newPointButtonComponent.element.disabled = false; });
     newPointButtonComponent.element.disabled = true;
   });
-})
+});

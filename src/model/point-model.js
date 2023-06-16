@@ -36,7 +36,7 @@ export default class PointsModel extends Observable {
       this.#points = [];
     }
 
-    this._notify(UpdateType.INIT)
+    this._notify(UpdateType.INIT);
   }
 
   updatePoint = async (updateType, update) => {
@@ -56,7 +56,7 @@ export default class PointsModel extends Observable {
 
       this._notify(updateType, updatedPoint);
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
     }
   }
 
@@ -99,4 +99,4 @@ export default class PointsModel extends Observable {
 
     return adaptedPoint;
   }
-};
+}

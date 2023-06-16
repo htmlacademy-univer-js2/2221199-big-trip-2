@@ -6,7 +6,6 @@ import PointPresenter from './point-presenter';
 import {filters, sorts} from '../utils/util';
 import {FiltersTypes, SortTypes, UpdateType, UserAction} from '../utils/consts';
 import NewPointPresenter from './new-point-presenter';
-import NewPointButtonView from '../view/new-point-button-view';
 import LoadingView from '../view/loading-view';
 
 
@@ -28,7 +27,6 @@ export default class TripPresenter {
 
   constructor(container, pointsModel, filterModel) {
     this.#container = container;
-    // this.#headerContainer = headerContainer;
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
 
@@ -45,7 +43,6 @@ export default class TripPresenter {
   }
 
   init() {
-    // this.#renderNewPointButton();
     this.#renderTrip();
   }
 
@@ -71,10 +68,6 @@ export default class TripPresenter {
       this.#currentSortType = SortTypes.DAY;
     }
   }
-
-  // #handleNewPointFormClose = () => {
-  //   this.#newPointButtonComponent.element.disabled = false;
-  // }
 
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
@@ -124,22 +117,9 @@ export default class TripPresenter {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   }
 
-  // #handleNewPointButtonClick = () => {
-  //   this.createPoint(this.#handleNewPointFormClose);
-  //   this.#newPointButtonComponent.element.disabled = true;
-  // }
-
   #renderLoading = () => {
-    render(this.#loadingComponent, this.#container, RenderPosition.AFTERBEGIN)
+    render(this.#loadingComponent, this.#container, RenderPosition.AFTERBEGIN);
   }
-
-  // #renderNewPointButton = () => {
-  //   if (this.#newPointButtonComponent === null) {
-  //     this.#newPointButtonComponent = new NewPointButtonView();
-  //     this.#newPointButtonComponent.setButtonClickHandler(this.#handleNewPointButtonClick);
-  //   }
-  //   render(this.#newPointButtonComponent, this.#headerContainer);
-  // }
 
   #renderPoint = (point) => {
     const pointPresenter = new PointPresenter(this.#tripListComponent.element, this.#pointsModel, this.#handleViewAction, this.#handleModeChange);
@@ -166,7 +146,6 @@ export default class TripPresenter {
 
   #renderTrip = () => {
     if (this.#isLoading) {
-      console.log('asd')
       this.#renderLoading();
       return;
     }

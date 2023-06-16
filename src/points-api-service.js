@@ -22,7 +22,6 @@ export default class PointsApiService extends ApiService {
   }
 
   updatePoint = async (point) => {
-    console.log('asdasdasd')
     const response = await this._load({
       url: `points/${point.id}`,
       method: Method.PUT,
@@ -36,7 +35,6 @@ export default class PointsApiService extends ApiService {
   }
 
   #adaptToServer = (point) => {
-    console.log(point)
     const adaptedPoint = {
       ...point,
       'base_price': Number(point.basePrice),
@@ -49,7 +47,6 @@ export default class PointsApiService extends ApiService {
     delete adaptedPoint.dateFrom;
     delete adaptedPoint.dateTo;
     delete adaptedPoint.isFavorite;
-    console.log(adaptedPoint)
 
     return adaptedPoint;
   }
