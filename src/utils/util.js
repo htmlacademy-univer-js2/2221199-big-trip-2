@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import {FiltersTypes, SortTypes} from './consts';
 
-const getRandomInRange = (start, end) => start >= 0 && end >= start ? Math.round(Math.random() * (end - start)) + start : -1;
 
 const humanizeDate = (date, form) => dayjs(date).format(form);
 
@@ -25,4 +24,4 @@ const sorts = {
   [SortTypes.PRICE]: (points) => points.sort((current, next) => next.basePrice - current.basePrice),
 };
 
-export {getRandomInRange, humanizeDate, humanizeTime, getDifference, isPointInPast, isPointInFuture, isDateEqual, filters, sorts};
+export {humanizeDate, humanizeTime, getDifference, isPointInPast, isPointInFuture, isDateEqual, filters, sorts};

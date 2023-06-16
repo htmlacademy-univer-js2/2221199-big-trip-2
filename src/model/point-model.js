@@ -1,8 +1,5 @@
-import generatePoint from '../mock/point';
-import {POINTS_COUNT} from '../utils/consts';
-import destinations from '../mock/destination';
-import {offersByType} from '../mock/offer';
 import Observable from '../framework/observable';
+import {UpdateType} from '../utils/consts';
 
 class PointsModel extends Observable {
   #points = [];
@@ -14,14 +11,9 @@ class PointsModel extends Observable {
   constructor(pointsApiService) {
     super();
 
-    this.#points = Array.from({length: POINTS_COUNT}, () => generatePoint());
-    this.#destinations = Array.from(destinations);
-    this.#offersByType = JSON.parse(JSON.stringify(offersByType));
-
     this.#pointsApiService = pointsApiService;
 
     this.#pointsApiService.points.then((points) => {
-      console.log(points.map(this.#adaptToClient));
     })
   }
 
@@ -35,6 +27,21 @@ class PointsModel extends Observable {
 
   get offersByType() {
     return this.#offersByType;
+  }
+
+  init = async () => {
+    try {
+      const points = await this.#pointsApiService.points;
+      this.#points = points.map(this.#adaptToClient);
+      this.#destinations = await this.#pointsApiService.destinations;
+      this.#offersByType = await this.#pointsApiService.offersByType;
+      console.log(this.#destinations)
+      console.log(this.#offersByType)
+    } catch (error) {
+      this.#points = [];
+    }
+
+    this._notify(UpdateType.INIT)
   }
 
   updatePoint = (updateType, update) => {
