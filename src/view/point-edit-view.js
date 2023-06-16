@@ -10,7 +10,6 @@ const BLANK_POINT = {
   dateFrom: new Date(),
   dateTo: new Date(),
   destination: 0,
-  id: 0,
   isFavorite: false,
   offers: [],
   type: 'taxi',
@@ -146,7 +145,9 @@ const createEditPointTemplate = (point, destinations) => {
                   <section class="event__details">
                     <section class="event__section  event__section--offers">
                       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+                      <div class="event__available-offers">
                       ${createOffersList()}
+                      </div>
                     </section>
                     <section class="event__section  event__section--destination">
                       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -168,10 +169,12 @@ export default class EditPointView extends AbstractStatefulView {
   #datepickerTo = null;
   #offersByType = null;
   #destinations = null;
-  constructor({point = BLANK_POINT, offersByType, destinations}) {
+  #isNewPoint = null;
+  constructor({point = BLANK_POINT, offersByType, destinations, isNewPoint}) {
     super();
     this.#offersByType = offersByType;
     this.#destinations = destinations;
+    this.#isNewPoint = isNewPoint;
     this._setState(EditPointView.parsePointToState(point, this.#offersByType));
     this.#setInnerHandlers();
     this.#setDatepickerFrom();
@@ -198,11 +201,17 @@ export default class EditPointView extends AbstractStatefulView {
 
   _restoreHandlers() {
     this.#setInnerHandlers();
-    this.setFormSubmitHandler(this._callback.formSubmit);
-    this.setCloseClickHandler(this._callback.closeClick);
-    this.setDeleteClickHandler(this._callback.deleteClick);
+
     this.#setDatepickerFrom();
     this.#setDatepickerTo();
+  }
+
+  #setOuterHandlers = () => {
+    if (!this.#isNewPoint) {
+      this.setCloseClickHandler(this._callback.closeClick);
+    }
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
 
   reset(point) {

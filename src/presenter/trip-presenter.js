@@ -29,7 +29,7 @@ export default class TripPresenter {
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
 
-    this.#newPointPresenter = new NewPointPresenter(this.#tripListComponent.element, this.#pointsModel, this.#handleViewAction, this.#handleNewPointFormClose);
+    this.#newPointPresenter = new NewPointPresenter(this.#tripListComponent.element, this.#pointsModel, this.#handleViewAction);
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -37,8 +37,7 @@ export default class TripPresenter {
 
   get points() {
     this.#currentFilterType = this.#filterModel.filter;
-    const points = this.#pointsModel.points;
-    const filteredPoints = filters[this.#currentFilterType](points);
+    const filteredPoints = filters[this.#currentFilterType](this.#pointsModel.points);
     return sorts[this.#currentSortType](filteredPoints);
   }
 
@@ -47,13 +46,14 @@ export default class TripPresenter {
     this.#renderTrip();
   }
 
-  createPoint = () => {
+  createPoint = (callback) => {
     this.#currentSortType = SortTypes.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FiltersTypes.EVERYTHING);
-    this.#newPointPresenter.init();
+    this.#newPointPresenter.init(callback);
   }
 
-  #clearTrip = (resetSortType = false) => {
+  #clearTrip = ({resetSortType = false} = {}) => {
+    this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
 
     this.#pointPresenters.clear();
@@ -96,7 +96,7 @@ export default class TripPresenter {
         this.#renderTrip();
         break;
       case UpdateType.MAJOR:
-        this.#clearTrip(false);
+        this.#clearTrip({resetSortType: true});
         this.#renderTrip();
         break;
     }
@@ -111,13 +111,13 @@ export default class TripPresenter {
     this.#renderTrip();
   }
 
-  #handleNewPointButtonClick = () => {
-    this.createPoint();
-    this.#newPointButtonComponent.element.disabled = true;
-  }
-
   #handleModeChange = () => {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  }
+
+  #handleNewPointButtonClick = () => {
+    this.createPoint(this.#handleNewPointFormClose);
+    this.#newPointButtonComponent.element.disabled = true;
   }
 
   #renderNewPointButton = () => {
@@ -135,16 +135,14 @@ export default class TripPresenter {
   }
 
   #renderPoints = () => {
-    this.points.forEach((point) => {
-      this.#renderPoint(point);
-    });
+    this.points.forEach((point) =>
+      this.#renderPoint(point)
+    );
   }
 
   #renderSort = () => {
-    if (this.#sortComponent === null) {
-      this.#sortComponent = new SortView(this.#currentSortType);
-      this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
-    }
+    this.#sortComponent = new SortView(this.#currentSortType);
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
     render(this.#sortComponent, this.#container);
   }
 
