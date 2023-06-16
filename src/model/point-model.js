@@ -5,9 +5,17 @@ import {offersByType} from '../mock/offer';
 import Observable from '../framework/observable';
 
 class PointsModel extends Observable {
-  #points = Array.from({length: POINTS_COUNT}, () => generatePoint());
-  #destinations = Array.from(destinations);
-  #offersByType = JSON.parse(JSON.stringify(offersByType));
+  #points = [];
+  #destinations = [];
+  #offersByType = [];
+
+  constructor() {
+    super();
+
+    this.#points = Array.from({length: POINTS_COUNT}, () => generatePoint());
+    this.#destinations = Array.from(destinations);
+    this.#offersByType = JSON.parse(JSON.stringify(offersByType));
+  }
 
   get points() {
     return this.#points;
@@ -21,7 +29,7 @@ class PointsModel extends Observable {
     return this.#offersByType;
   }
 
-  updatePoint(updateType, update) {
+  updatePoint = (updateType, update) => {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
@@ -36,7 +44,7 @@ class PointsModel extends Observable {
     this._notify(updateType, update);
   }
 
-  addPoint(updateType, update) {
+  addPoint = (updateType, update) => {
     this.#points = [
       update,
       ...this.#points
@@ -44,7 +52,7 @@ class PointsModel extends Observable {
     this._notify(updateType, update);
   }
 
-  deletePoint(updateType, update) {
+  deletePoint = (updateType, update) => {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {

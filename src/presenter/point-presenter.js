@@ -34,9 +34,9 @@ export default class PointPresenter {
 
     this.#pointComponent = new PointView(this.#point, this.#pointsModel.offersByType, this.#pointsModel.destinations);
     this.#pointEditComponent = new EditPointView({
-      point: this.#point,
+      point: point,
+      destinations: this.#pointsModel.destinations,
       offersByType: this.#pointsModel.offersByType,
-      destinations: this.#pointsModel.destinations
     });
 
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
@@ -85,11 +85,11 @@ export default class PointPresenter {
     this.#mode = Mode.DEFAULT;
   };
 
-  #handleDeleteClick = (task) => {
+  #handleDeleteClick = (point) => {
     this.#handleDataChange(
       UserAction.DELETE_POINT,
       UpdateType.MINOR,
-      task,
+      point,
     );
   }
 
