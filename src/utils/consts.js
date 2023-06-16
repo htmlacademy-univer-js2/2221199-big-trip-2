@@ -1,9 +1,3 @@
-const DESTINATIONS_COUNT = 3;
-
-const OFFER_TITLES = ['Offer', 'Another offer', 'Usual offer', 'Cheap offer', 'Expensive offer', 'Useless offer', 'Premium offer', 'Good offer', 'Bad offer', 'Amazing offer'];
-const MAX_OFFERS_COUNT = 3;
-const POINTS_COUNT = 5;
-
 const FiltersTypes = {
   PAST: 'past',
   EVERYTHING: 'everything',
@@ -28,6 +22,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
-export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT, POINTS_COUNT, FiltersTypes, SortTypes, UserAction, UpdateType};
+export {FiltersTypes, SortTypes, UserAction, UpdateType};

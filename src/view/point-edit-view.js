@@ -187,7 +187,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   removeElement() {
     super.removeElement();
-
+    this.#setOuterHandlers();
     this.#removeDatepicker(this.#datepickerFrom);
     this.#removeDatepicker(this.#datepickerTo);
   }
