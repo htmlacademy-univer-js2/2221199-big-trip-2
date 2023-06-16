@@ -9,12 +9,20 @@ class PointsModel extends Observable {
   #destinations = [];
   #offersByType = [];
 
-  constructor() {
+  #pointsApiService = null;
+
+  constructor(pointsApiService) {
     super();
 
     this.#points = Array.from({length: POINTS_COUNT}, () => generatePoint());
     this.#destinations = Array.from(destinations);
     this.#offersByType = JSON.parse(JSON.stringify(offersByType));
+
+    this.#pointsApiService = pointsApiService;
+
+    this.#pointsApiService.points.then((points) => {
+      console.log(points.map(this.#adaptToClient));
+    })
   }
 
   get points() {
@@ -65,6 +73,23 @@ class PointsModel extends Observable {
     ];
 
     this._notify(updateType, update);
+  }
+
+  #adaptToClient = (point) => {
+    const adaptedPoint = {
+      ...point,
+      basePrice: point['base_price'],
+      dateFrom: new Date(point['date_from']).toISOString(),
+      dateTo: new Date(point['date_to']).toISOString(),
+      isFavorite: point['is_favorite'],
+    };
+
+    delete adaptedPoint['base_price'];
+    delete adaptedPoint['date_from'];
+    delete adaptedPoint['date_to'];
+    delete adaptedPoint['is_favorite'];
+
+    return adaptedPoint;
   }
 }
 
