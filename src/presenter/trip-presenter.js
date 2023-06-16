@@ -12,7 +12,6 @@ import LoadingView from '../view/loading-view';
 
 export default class TripPresenter {
   #container = null;
-  #headerContainer = null;
   #pointsModel = null;
   #filterModel = null;
 

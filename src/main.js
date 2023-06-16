@@ -6,8 +6,8 @@ import PointsApiService from './points-api-service';
 import NewPointButtonView from './view/new-point-button-view';
 import {render, RenderPosition} from './framework/render';
 
-const AUTHORIZATION = 'Basic 20hoursofPuDgebeatbox'
-const END_POINT = 'https://18.ecmascript.pages.academy/big-trip/';
+const AUTHORIZATION = 'Basic 20hoursofPuDgebeatbox';
+const END_POINT = 'https://18.ecmascript.pages.academy/big-trip';
 
 const filterContainer = document.querySelector('.trip-controls__filters');
 const tripContainer = document.querySelector('.trip-events');
