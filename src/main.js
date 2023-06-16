@@ -9,17 +9,8 @@ const headerContainer = document.querySelector('.trip-main');
 const pointsModel = new PointsModel();
 const filterModel = new FilterModel();
 
-// const newPointButtonComponent = new NewPointButtonView();
-
 const tripPresenter = new TripPresenter(tripContainer, headerContainer, pointsModel, filterModel);
 const filterPresenter = new FilterPresenter(filterContainer, filterModel, pointsModel);
-
-// newPointButtonComponent.setButtonClickHandler(() => {
-//   tripPresenter.createTask();
-//   newPointButtonComponent.element.disabled = true;
-// });
-
-// render(newPointButtonComponent, headerContainer, RenderPosition.BEFOREEND);
 
 tripPresenter.init();
 filterPresenter.init();
