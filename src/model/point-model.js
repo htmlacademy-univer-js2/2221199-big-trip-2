@@ -10,6 +10,7 @@ class PointsModel extends Observable {
   #offersByType = JSON.parse(JSON.stringify(offersByType));
 
   get points() {
+    console.log(this.#points);
     return this.#points;
   }
 
