@@ -54,11 +54,7 @@ export default class TripPresenter {
 
   #clearTrip = ({resetSortType = false} = {}) => {
     this.#newPointPresenter.destroy();
-    console.log(this.points);
-    this.#pointPresenters.forEach((presenter) => {
-      console.log('1')
-      presenter.destroy();
-    });
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
 
     this.#pointPresenters.clear();
 
