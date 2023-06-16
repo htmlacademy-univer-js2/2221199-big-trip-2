@@ -11,21 +11,22 @@ export default class NewPointPresenter {
 
   #handleDestroy = null;
 
-  constructor(tripListContainer, pointsModel, onChangeData, onDestroy) {
+  constructor(tripListContainer, pointsModel, onChangeData) {
     this.#tripListContainer = tripListContainer;
     this.#pointsModel = pointsModel;
     this.#handleDataChange = onChangeData;
-    this.#handleDestroy = onDestroy;
   }
 
-  init = () => {
+  init = (callback) => {
+    this.#handleDestroy = callback;
     if (this.#pointEditComponent !== null) {
       return;
     }
 
     this.#pointEditComponent = new EditPointView({
       offersByType: this.#pointsModel.offersByType,
-      destinations: this.#pointsModel.destinations
+      destinations: this.#pointsModel.destinations,
+      isNewPoint: true
     });
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);
@@ -52,8 +53,8 @@ export default class NewPointPresenter {
   #handleFormSubmit = (point) => {
     this.#handleDataChange(
       UserAction.ADD_POINT,
-      UpdateType.MAJOR,
-      {id: nanoid(), ...point}
+      UpdateType.MINOR,
+      {...point, id: nanoid()}
     );
     this.destroy();
   };
