@@ -8,6 +8,7 @@ import {FilterType, SortType, TimeLimit, UpdateType, UserAction} from '../utils/
 import NewPointPresenter from './new-point-presenter';
 import LoadingView from '../view/loading-view';
 import UiBlocker from '../framework/ui-blocker/ui-blocker';
+import TripInfoView from '../view/trip-info-view';
 
 
 export default class TripPresenter {
@@ -23,13 +24,16 @@ export default class TripPresenter {
   #currentFilterType = FilterType.EVERYTHING;
   #emptyListComponent = null;
   #isLoading = true;
+  #tripInfoComponent = null;
+  #headerContainer = null;
   #uiBlocker = new UiBlocker({
     lowerLimit: TimeLimit.LOWER_LIMIT,
     upperLimit: TimeLimit.UPPER_LIMIT,
-  })
+  });
 
-  constructor(container, pointsModel, filterModel) {
+  constructor(container, headerContainer, pointsModel, filterModel) {
     this.#container = container;
+    this.#headerContainer = headerContainer;
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
 
@@ -63,6 +67,7 @@ export default class TripPresenter {
 
     remove(this.#sortComponent);
     remove(this.#loadingComponent);
+    this.#clearTripInfo();
     if (this.#emptyListComponent) {
       remove(this.#emptyListComponent);
     }
@@ -70,6 +75,19 @@ export default class TripPresenter {
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
     }
+  }
+
+  #clearTripInfo = () => {
+    remove(this.#tripInfoComponent);
+    this.#tripInfoComponent = null;
+  }
+
+  #renderTripInfo = () => {
+    if (this.#tripInfoComponent === null) {
+      this.#tripInfoComponent = new TripInfoView(this.#pointsModel.points, this.#pointsModel.offersByType, this.#pointsModel.destinations);
+    }
+
+    render(this.#tripInfoComponent, this.#headerContainer, RenderPosition.AFTERBEGIN);
   }
 
   #renderLoading = () => {
@@ -109,7 +127,7 @@ export default class TripPresenter {
       return;
 
     }
-
+    this.#renderTripInfo();
     this.#renderSort();
     render(this.#tripListComponent, this.#container);
     this.#renderPoints();
