@@ -8,6 +8,8 @@ const humanizeTime = (date) => dayjs(date).format('HH:mm');
 const isPointInFuture = (date) => dayjs().isBefore(date);
 const isPointInPast = (date) => dayjs().isAfter(date);
 
+const isFirstDateBeforeSecond = (dateFrom, dateTo) => dayjs(dateTo).diff(dayjs(dateFrom)) > 0;
+
 const getDifference = (firstDate, secondDate, param) => dayjs(secondDate).diff(firstDate, param);
 
 const isDateEqual = (firstDate, secondDate) => (firstDate === null && secondDate === null) || dayjs(firstDate).isSame(secondDate, 'm');
@@ -24,4 +26,4 @@ const sorts = {
   [SortTypes.PRICE]: (points) => points.sort((current, next) => next.basePrice - current.basePrice),
 };
 
-export {humanizeDate, humanizeTime, getDifference, isPointInPast, isPointInFuture, isDateEqual, filters, sorts};
+export {humanizeDate, humanizeTime, getDifference, isPointInPast, isPointInFuture, isFirstDateBeforeSecond, isDateEqual, filters, sorts};

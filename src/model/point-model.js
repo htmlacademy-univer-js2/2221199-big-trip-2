@@ -35,7 +35,6 @@ export default class PointsModel extends Observable {
     } catch (error) {
       this.#points = [];
     }
-
     this._notify(UpdateType.INIT);
   }
 
@@ -60,27 +59,40 @@ export default class PointsModel extends Observable {
     }
   }
 
-  addPoint = (updateType, update) => {
-    this.#points = [
-      update,
-      ...this.#points
-    ];
-    this._notify(updateType, update);
+  addPoint = async (updateType, update) => {
+    try {
+      const response = await this.#pointsApiService.addPoint(update);
+      const newPoint = this.#adaptToClient(response);
+
+      this.#points = [
+        newPoint  ,
+        ...this.#points
+      ];
+
+      this._notify(updateType, update);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  deletePoint = (updateType, update) => {
+  deletePoint = async (updateType, update) => {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
-      return;
+      throw new Error('Can\'t delete unexisting point');
     }
 
-    this.#points = [
-      ...this.#points.slice(0, index),
-      ...this.#points.slice(index + 1)
-    ];
+    try {
+      await this.#pointsApiService.deletePoint(update);
+      this.#points = [
+        ...this.#points.slice(0, index),
+        ...this.#points.slice(index + 1)
+      ];
 
-    this._notify(updateType, update);
+      this._notify(updateType);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   #adaptToClient = (point) => {

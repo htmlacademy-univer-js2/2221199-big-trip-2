@@ -25,4 +25,9 @@ const UpdateType = {
   INIT: 'INIT',
 };
 
-export {FiltersTypes, SortTypes, UserAction, UpdateType};
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
+export {FiltersTypes, SortTypes, UserAction, UpdateType, TimeLimit};
