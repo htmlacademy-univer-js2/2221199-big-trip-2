@@ -1,16 +1,10 @@
-const DESTINATIONS_COUNT = 3;
-
-const OFFER_TITLES = ['Offer', 'Another offer', 'Usual offer', 'Cheap offer', 'Expensive offer', 'Useless offer', 'Premium offer', 'Good offer', 'Bad offer', 'Amazing offer'];
-const MAX_OFFERS_COUNT = 3;
-const POINTS_COUNT = 5;
-
-const FiltersTypes = {
+const FilterType = {
   PAST: 'past',
   EVERYTHING: 'everything',
   FUTURE: 'future',
 };
 
-const SortTypes = {
+const SortType = {
   DAY: 'day',
   EVENT: 'event',
   TIME: 'time',
@@ -28,6 +22,12 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
-export {DESTINATIONS_COUNT, OFFER_TITLES, MAX_OFFERS_COUNT, POINTS_COUNT, FiltersTypes, SortTypes, UserAction, UpdateType};
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
+export {FilterType, SortType, UserAction, UpdateType, TimeLimit};

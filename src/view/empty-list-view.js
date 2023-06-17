@@ -1,10 +1,10 @@
 import AbstractView from '../framework/view/abstract-view';
-import {FiltersTypes} from '../utils/consts';
+import {FilterType} from '../utils/consts';
 
 const EmptyListTextType = {
-  [FiltersTypes.EVERYTHING]: 'Click New Event to create your first point',
-  [FiltersTypes.PAST]: 'There are no past events now',
-  [FiltersTypes.FUTURE]: 'There are no future events now',
+  [FilterType.EVERYTHING]: 'Click New Event to create your first point',
+  [FilterType.PAST]: 'There are no past events now',
+  [FilterType.FUTURE]: 'There are no future events now',
 };
 
 const createEmptyListTemplate = (filterType) => (
