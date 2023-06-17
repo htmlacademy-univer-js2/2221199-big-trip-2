@@ -31,7 +31,13 @@ const createEditPointTemplate = (point, destinations, isNewPoint) => {
 
   const currentDestination = destinations.find(({id}) => id === destination);
 
-  const resetButtonName = isNewPoint ? 'Cancel' : isDeleting ? 'Deleting...' : 'Delete';
+  const getResetButtonName = () => {
+    if (isNewPoint) {
+      return 'Cancel';
+    } else {
+      return isDeleting ? 'Deleting...' : 'Delete';
+    }
+  };
 
   const checkTypePoint = (currentType) => currentType === type ? 'checked' : '';
 
@@ -142,7 +148,7 @@ const createEditPointTemplate = (point, destinations, isNewPoint) => {
                       <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${he.encode(basePrice.toString())}" ${isDisabled ? 'disabled' : ''}>
                     </div>
                     <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
-                    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${resetButtonName}</button>
+                    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${getResetButtonName()}</button>
                     <button class="event__rollup-btn" type="button" ${isDisabled ? 'disabled' : ''}>
                     <span class="visually-hidden">Open event</span>
                   </button>

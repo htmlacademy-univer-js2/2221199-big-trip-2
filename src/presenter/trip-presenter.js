@@ -14,7 +14,6 @@ export default class TripPresenter {
   #container = null;
   #pointsModel = null;
   #filterModel = null;
-
   #tripListComponent = new TripListView();
   #loadingComponent = new LoadingView();
   #pointPresenter = new Map();
