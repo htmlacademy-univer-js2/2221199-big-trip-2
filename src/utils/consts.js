@@ -1,10 +1,10 @@
-const FiltersTypes = {
+const FilterType = {
   PAST: 'past',
   EVERYTHING: 'everything',
   FUTURE: 'future',
 };
 
-const SortTypes = {
+const SortType = {
   DAY: 'day',
   EVENT: 'event',
   TIME: 'time',
@@ -30,4 +30,4 @@ const TimeLimit = {
   UPPER_LIMIT: 1000,
 };
 
-export {FiltersTypes, SortTypes, UserAction, UpdateType, TimeLimit};
+export {FilterType, SortType, UserAction, UpdateType, TimeLimit};

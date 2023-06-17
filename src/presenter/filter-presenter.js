@@ -1,4 +1,4 @@
-import {FiltersTypes, UpdateType} from '../utils/consts';
+import {FilterType, UpdateType} from '../utils/consts';
 import {filters} from '../utils/util';
 import FilterView from '../view/filter-view';
 import {remove, render, replace} from '../framework/render';
@@ -23,19 +23,19 @@ export default class FilterPresenter {
 
     return [
       {
-        type: FiltersTypes.EVERYTHING,
+        type: FilterType.EVERYTHING,
         name: 'EVERYTHING',
-        count: filters[FiltersTypes.EVERYTHING](points).length
+        count: filters[FilterType.EVERYTHING](points).length
       },
       {
-        type: FiltersTypes.FUTURE,
+        type: FilterType.FUTURE,
         name: 'FUTURE',
-        count: filters[FiltersTypes.FUTURE](points).length,
+        count: filters[FilterType.FUTURE](points).length,
       },
       {
-        type: FiltersTypes.PAST,
+        type: FilterType.PAST,
         name: 'PAST',
-        count: filters[FiltersTypes.PAST](points).length,
+        count: filters[FilterType.PAST](points).length,
       },
     ];
   }

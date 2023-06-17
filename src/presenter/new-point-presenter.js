@@ -25,6 +25,7 @@ export default class NewPointPresenter {
     this.#pointEditComponent = new EditPointView({
       offersByType: this.#pointsModel.offersByType,
       destinations: this.#pointsModel.destinations,
+      isNewPoint: true
     });
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);
