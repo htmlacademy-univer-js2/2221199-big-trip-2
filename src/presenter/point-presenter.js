@@ -159,7 +159,6 @@ export default class PointPresenter {
       isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
       update
     );
-    // this.#replaceFormToPoint();
     document.removeEventListener('keydown', this.#handleEscKeyDown);
   };
 }

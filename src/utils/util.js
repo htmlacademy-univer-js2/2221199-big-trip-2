@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {FiltersTypes, SortTypes} from './consts';
+import {FilterType, SortType} from './consts';
 
 
 const humanizeDate = (date, form) => dayjs(date).format(form);
@@ -15,15 +15,15 @@ const getDifference = (firstDate, secondDate, param) => dayjs(secondDate).diff(f
 const isDateEqual = (firstDate, secondDate) => (firstDate === null && secondDate === null) || dayjs(firstDate).isSame(secondDate, 'm');
 
 const filters = {
-  [FiltersTypes.EVERYTHING]: (points) => points,
-  [FiltersTypes.FUTURE]: (points) => points.filter((point) => isPointInFuture(point.dateFrom)),
-  [FiltersTypes.PAST]: (points) => points.filter((point) => isPointInPast(point.dateTo)),
+  [FilterType.EVERYTHING]: (points) => points,
+  [FilterType.FUTURE]: (points) => points.filter((point) => isPointInFuture(point.dateFrom)),
+  [FilterType.PAST]: (points) => points.filter((point) => isPointInPast(point.dateTo)),
 };
 
 const sorts = {
-  [SortTypes.DAY]: (points) => points.sort((current, next) => getDifference(next.dateFrom, current.dateFrom, '')),
-  [SortTypes.TIME]: (points) => points.sort((current, next) => getDifference(next.dateFrom, next.dateTo, 'second') - getDifference(current.dateFrom, current.dateTo, 'second')),
-  [SortTypes.PRICE]: (points) => points.sort((current, next) => next.basePrice - current.basePrice),
+  [SortType.DAY]: (points) => points.sort((current, next) => getDifference(next.dateFrom, current.dateFrom, '')),
+  [SortType.TIME]: (points) => points.sort((current, next) => getDifference(next.dateFrom, next.dateTo, 'second') - getDifference(current.dateFrom, current.dateTo, 'second')),
+  [SortType.PRICE]: (points) => points.sort((current, next) => next.basePrice - current.basePrice),
 };
 
 export {humanizeDate, humanizeTime, getDifference, isPointInPast, isPointInFuture, isFirstDateBeforeSecond, isDateEqual, filters, sorts};

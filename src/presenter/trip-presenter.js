@@ -4,7 +4,7 @@ import SortView from '../view/sort-view';
 import EmptyListView from '../view/empty-list-view';
 import PointPresenter from './point-presenter';
 import {filters, sorts} from '../utils/util';
-import {FiltersTypes, SortTypes, TimeLimit, UpdateType, UserAction} from '../utils/consts';
+import {FilterType, SortType, TimeLimit, UpdateType, UserAction} from '../utils/consts';
 import NewPointPresenter from './new-point-presenter';
 import LoadingView from '../view/loading-view';
 import UiBlocker from '../framework/ui-blocker/ui-blocker';
@@ -19,10 +19,9 @@ export default class TripPresenter {
   #loadingComponent = new LoadingView();
   #pointPresenter = new Map();
   #newPointPresenter = null;
-  // #newPointButtonComponent = null;
   #sortComponent = new SortView();
-  #currentSortType = SortTypes.DAY;
-  #currentFilterType = FiltersTypes.EVERYTHING;
+  #currentSortType = SortType.DAY;
+  #currentFilterType = FilterType.EVERYTHING;
   #emptyListComponent = null;
   #isLoading = true;
   #uiBlocker = new UiBlocker({
@@ -52,8 +51,8 @@ export default class TripPresenter {
   }
 
   createPoint = (callback) => {
-    this.#currentSortType = SortTypes.DAY;
-    this.#filterModel.setFilter(UpdateType.MAJOR, FiltersTypes.EVERYTHING);
+    this.#currentSortType = SortType.DAY;
+    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#newPointPresenter.init(callback);
   }
 
@@ -70,8 +69,51 @@ export default class TripPresenter {
     }
 
     if (resetSortType) {
-      this.#currentSortType = SortTypes.DAY;
+      this.#currentSortType = SortType.DAY;
     }
+  }
+
+  #renderLoading = () => {
+    render(this.#loadingComponent, this.#container, RenderPosition.AFTERBEGIN);
+  }
+
+  #renderPoint = (point) => {
+    const pointPresenter = new PointPresenter(this.#tripListComponent.element, this.#pointsModel, this.#handleViewAction, this.#handleModeChange);
+    pointPresenter.init(point);
+    this.#pointPresenter.set(point.id, pointPresenter);
+  }
+
+  #renderPoints = () => {
+    this.points.forEach((point) =>
+      this.#renderPoint(point)
+    );
+  }
+
+  #renderSort = () => {
+    this.#sortComponent = new SortView(this.#currentSortType);
+    this.#sortComponent.setSortTypeChangeHandler(this.#sortTypeChangeHandler);
+    render(this.#sortComponent, this.#container);
+  }
+
+  #renderEmptyList = () => {
+    this.#emptyListComponent = new EmptyListView(this.#currentFilterType);
+    render(this.#emptyListComponent, this.#container);
+  }
+
+  #renderTrip = () => {
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
+    if (this.points.length === 0) {
+      this.#renderEmptyList();
+      return;
+
+    }
+
+    this.#renderSort();
+    render(this.#tripListComponent, this.#container);
+    this.#renderPoints();
   }
 
   #handleViewAction = async (actionType, updateType, update) => {
@@ -128,59 +170,16 @@ export default class TripPresenter {
     }
   }
 
-  #handleSortTypeChange = (sortType) => {
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
+  }
+
+  #sortTypeChangeHandler = (sortType) => {
     if (this.#currentSortType === sortType) {
       return;
     }
     this.#currentSortType = sortType;
     this.#clearTrip();
     this.#renderTrip();
-  }
-
-  #handleModeChange = () => {
-    this.#pointPresenter.forEach((presenter) => presenter.resetView());
-  }
-
-  #renderLoading = () => {
-    render(this.#loadingComponent, this.#container, RenderPosition.AFTERBEGIN);
-  }
-
-  #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#tripListComponent.element, this.#pointsModel, this.#handleViewAction, this.#handleModeChange);
-    pointPresenter.init(point);
-    this.#pointPresenter.set(point.id, pointPresenter);
-  }
-
-  #renderPoints = () => {
-    this.points.forEach((point) =>
-      this.#renderPoint(point)
-    );
-  }
-
-  #renderSort = () => {
-    this.#sortComponent = new SortView(this.#currentSortType);
-    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
-    render(this.#sortComponent, this.#container);
-  }
-
-  #renderEmptyList = () => {
-    this.#emptyListComponent = new EmptyListView(this.#currentFilterType);
-    render(this.#emptyListComponent, this.#container);
-  }
-
-  #renderTrip = () => {
-    if (this.#isLoading) {
-      this.#renderLoading();
-      return;
-    }
-    if (this.points.length === 0) {
-      this.#renderEmptyList();
-      return;
-
-    }
-
-    this.#renderSort();
-    render(this.#tripListComponent, this.#container);
-    this.#renderPoints();
   }
 }

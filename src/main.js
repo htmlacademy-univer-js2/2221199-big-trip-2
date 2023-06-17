@@ -15,10 +15,10 @@ const headerContainer = document.querySelector('.trip-main');
 const pointsModel = new PointsModel(new PointsApiService(END_POINT, AUTHORIZATION));
 const filterModel = new FilterModel();
 
-const newPointButtonComponent = new NewPointButtonView();
-
 const tripPresenter = new TripPresenter(tripContainer, pointsModel, filterModel, );
 const filterPresenter = new FilterPresenter(filterContainer, filterModel, pointsModel);
+const newPointButtonComponent = new NewPointButtonView();
+
 
 tripPresenter.init();
 filterPresenter.init();
