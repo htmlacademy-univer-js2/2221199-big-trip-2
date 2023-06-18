@@ -6,18 +6,18 @@ export default class NewPointPresenter {
   #tripListContainer = null;
   #pointEditComponent = null;
   #pointsModel = null;
-  #handleDataChange = null;
+  #dataChangeHandler = null;
 
-  #handleDestroy = null;
+  #destroyHandler = null;
 
-  constructor(tripListContainer, pointsModel, onChangeData) {
+  constructor(tripListContainer, pointsModel, dataChangeHandler) {
     this.#tripListContainer = tripListContainer;
     this.#pointsModel = pointsModel;
-    this.#handleDataChange = onChangeData;
+    this.#dataChangeHandler = dataChangeHandler;
   }
 
   init = (callback) => {
-    this.#handleDestroy = callback;
+    this.#destroyHandler = callback;
     if (this.#pointEditComponent !== null) {
       return;
     }
@@ -27,13 +27,13 @@ export default class NewPointPresenter {
       destinations: this.#pointsModel.destinations,
       isNewPoint: true
     });
-    this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
-    this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);
-    this.#pointEditComponent.setCloseClickHandler(this.#handleCloseClick);
+    this.#pointEditComponent.setFormSubmitHandler(this.#formSubmitHandler);
+    this.#pointEditComponent.setDeleteClickHandler(this.#deleteClickHandler);
+    this.#pointEditComponent.setCloseClickHandler(this.#closeClickHandler);
 
     render(this.#pointEditComponent, this.#tripListContainer, RenderPosition.AFTERBEGIN);
 
-    document.addEventListener('keydown', this.#handleEscKeyDown);
+    document.addEventListener('keydown', this.#escKeyDownHandler);
   };
 
   destroy = () => {
@@ -41,12 +41,12 @@ export default class NewPointPresenter {
       return;
     }
 
-    this.#handleDestroy();
+    this.#destroyHandler();
 
     remove(this.#pointEditComponent);
     this.#pointEditComponent = null;
 
-    document.removeEventListener('keydown', this.#handleEscKeyDown);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
   setSaving = () => {
@@ -67,26 +67,26 @@ export default class NewPointPresenter {
     this.#pointEditComponent.shake(resetFromState);
   };
 
-  #handleFormSubmit = (point) => {
-    this.#handleDataChange(
+  #formSubmitHandler = (point) => {
+    this.#dataChangeHandler(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
       point
     );
   };
 
-  #handleDeleteClick = () => {
+  #deleteClickHandler = () => {
     this.destroy();
   }
 
-  #handleEscKeyDown = (evt) => {
+  #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this.destroy();
     }
   };
 
-  #handleCloseClick = () => {
+  #closeClickHandler = () => {
     this.destroy();
   };
 }

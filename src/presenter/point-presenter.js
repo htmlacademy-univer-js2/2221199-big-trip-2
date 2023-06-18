@@ -15,15 +15,15 @@ export default class PointPresenter {
   #pointEditComponent = null;
   #point = null;
   #pointsModel = null;
-  #handleDataChange = null;
-  #handleModeChange = null;
+  #dataChangeHandler = null;
+  #modeChangeHandler = null;
   #mode = Mode.DEFAULT;
 
-  constructor(tripListContainer, pointsModel, onChangeData, onChangeMode) {
+  constructor(tripListContainer, pointsModel, dataChangeHandler, modeChangeHandler) {
     this.#tripListContainer = tripListContainer;
     this.#pointsModel = pointsModel;
-    this.#handleDataChange = onChangeData;
-    this.#handleModeChange = onChangeMode;
+    this.#dataChangeHandler = dataChangeHandler;
+    this.#modeChangeHandler = modeChangeHandler;
   }
 
   init = (point) => {
@@ -39,11 +39,11 @@ export default class PointPresenter {
       offersByType: this.#pointsModel.offersByType,
     });
 
-    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
-    this.#pointComponent.setEditClickHandler(this.#handleEditClick);
-    this.#pointEditComponent.setCloseClickHandler(this.#handleCloseClick);
-    this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
-    this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);
+    this.#pointComponent.setFavoriteClickHandler(this.#favoriteClickHandler);
+    this.#pointComponent.setEditClickHandler(this.#editClickHandler);
+    this.#pointEditComponent.setCloseClickHandler(this.#closeClickHandler);
+    this.#pointEditComponent.setFormSubmitHandler(this.#formSubmitHandler);
+    this.#pointEditComponent.setDeleteClickHandler(this.#deleteClickHandler);
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this.#pointComponent, this.#tripListContainer);
@@ -106,7 +106,7 @@ export default class PointPresenter {
 
   #replacePointToForm = () => {
     replace(this.#pointEditComponent, this.#pointComponent);
-    this.#handleModeChange();
+    this.#modeChangeHandler();
     this.#mode = Mode.EDITING;
   };
 
@@ -115,50 +115,50 @@ export default class PointPresenter {
     this.#mode = Mode.DEFAULT;
   };
 
-  #handleDeleteClick = (point) => {
-    this.#handleDataChange(
+  #deleteClickHandler = (point) => {
+    this.#dataChangeHandler(
       UserAction.DELETE_POINT,
       UpdateType.MINOR,
       point,
     );
   }
 
-  #handleEscKeyDown = (evt) => {
+  #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this.resetView();
-      document.removeEventListener('keydown', this.#handleEscKeyDown);
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
   };
 
-  #handleFavoriteClick = () => {
-    this.#handleDataChange(
+  #favoriteClickHandler = () => {
+    this.#dataChangeHandler(
       UserAction.UPDATE_POINT,
       UpdateType.PATCH,
       {...this.#point, isFavorite: !this.#point.isFavorite}
     );
   };
 
-  #handleEditClick = () => {
+  #editClickHandler = () => {
     this.#replacePointToForm();
-    document.addEventListener('keydown', this.#handleEscKeyDown);
+    document.addEventListener('keydown', this.#escKeyDownHandler);
   };
 
-  #handleCloseClick = () => {
+  #closeClickHandler = () => {
     this.resetView();
-    document.removeEventListener('keydown', this.#handleEscKeyDown);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
-  #handleFormSubmit = (update) => {
+  #formSubmitHandler = (update) => {
     const isMinorUpdate =
       !isDateEqual(this.#point.dateFrom, update.dateFrom) ||
       !isDateEqual(this.#point.dateTo, update.dateTo) ||
       this.#point.basePrice !== update.basePrice;
-    this.#handleDataChange(
+    this.#dataChangeHandler(
       UserAction.UPDATE_POINT,
       isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
       update
     );
-    document.removeEventListener('keydown', this.#handleEscKeyDown);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 }
